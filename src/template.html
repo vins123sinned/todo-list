@@ -4,43 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add_circle,calendar_month,event_repeat,inventory_2,search,star" />
 </head>
 <body>
     <div class="sidebar">
         <div class="profile">
             <img alt="profile picture" class="profile-image" src="./assets/profile-picture.jpg">
-            <h3>Me, Myself, and I</h3>
-            <p><a href="https://commons.wikimedia.org/wiki/File:Default_pfp.jpg">ByteDance</a>, Public domain, via Wikimedia Commons</p>
+            <div class="profile-texts">
+                <h3 class="profile-heading">Me, Myself, and I</h3>
+                <p class="image-attribution"><a href="https://commons.wikimedia.org/wiki/File:Default_pfp.jpg">ByteDance</a>, Public domain, via Wikimedia Commons</p>
+            </div>
         </div>
-        <ul class="sidebar-options">
-            <li>
-                <object data="./assets/svgs/add-circle.svg"></object>
+        <ul>
+            <li class="sidebar-option">
+                <span class="material-symbols-outlined add-circle">
+                    add_circle
+                </span>
                 Add todo
             </li>
-            <li>
-                <object data="./assets/svgs/search.svg"></object>
+            <li class="sidebar-option">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
                 Search
             </li>
-            <li>
-                <object data="./assets/svgs/star.svg"></object>
+            <li class="sidebar-option">
+                <span class="material-symbols-outlined">
+                    star
+                </span>
                 Today
             </li>
-            <li>
-                <object data="./assets/svgs/calendar.svg"></object>
+            <li class="sidebar-option">
+                <span class="material-symbols-outlined">
+                    calendar_month
+                </span>
                 Upcoming
             </li>
-            <li>
-                <object data="./assets/svgs/calendar-repeat.svg"></object>
+            <li class="sidebar-option">
+                <span class="material-symbols-outlined">
+                    event_repeat
+                </span>
                 Dailies
             </li>
-            <li>
-                <object data="./assets/svgs/inventory.svg"></object>
+            <li class="sidebar-option">
+                <span class="material-symbols-outlined">
+                    inventory_2
+                </span>
                 Future
             </li>
         </ul>
     </div>
     <div class="main">
-
     </div>
 </body>
 </html>

@@ -1,0 +1,95 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+}
+
+body,
+ul,
+.profile-heading,
+.image-attribution {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: #5e5c5c;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+/* sidebar styling */
+
+.sidebar {
+    width: clamp(300px, 30%, 400px);
+    padding: 1.75rem;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-image {
+    border-radius: 50%;
+    height: 2.5rem;
+    margin-right: 1rem;
+}
+
+.profile-heading {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.image-attribution {
+    font-size: 0.6rem;
+    color: #5e5c5c;;
+}
+
+.sidebar-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.sidebar-option:hover {
+    cursor: pointer;
+    color: #0077b6;
+    background-color: #dbf1f5;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 
+    'wght' 200;
+    font-size: 1.75rem;
+    color: #666666;
+    margin-right: 0.5rem;
+}
+
+.sidebar-option:hover .material-symbols-outlined {
+    font-variation-settings: 
+    'FILL' 1;
+    color: #0077b6;
+}
+
+.add-circle {
+    font-variation-settings: 
+    'FILL' 1;
+    color: #0077b6;
+}
+
+.main {
+    padding: 5rem;
+}
