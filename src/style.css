@@ -90,6 +90,19 @@ ul li {
     color: #0077b6;
 }
 
+/* addTodo form styling */
+.options-container {
+    position: relative;
+    z-index: 999;
+    border: 1px solid black;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
 .main {
     padding: 5rem;
 }

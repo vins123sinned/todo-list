@@ -45,6 +45,8 @@ function prioritySelect() {
     currentPriorityIcon.textContent = 'do_not_disturb_on';
 
     priorityContainer.classList.add('priority-container');
+    currentPriority.classList.add('current-priority');
+    currentPriorityIcon.classList.add('current-priority-icon');
 
     currentPriority.prepend(currentPriorityIcon);
     priorityContainer.appendChild(currentPriority);
@@ -53,6 +55,7 @@ function prioritySelect() {
         const getOptionsContainer = document.querySelector('.options-container');
         if (!priorityContainer.contains(getOptionsContainer)) {
             priorityContainer.appendChild(priorityOptions());
+            addOverlay('.options-container');
         }
     });
 
@@ -60,7 +63,24 @@ function prioritySelect() {
 }
 
 function priorityOptions() {
-    const options = ['urgent', 'important', 'low priority', 'none'];
+    const options = [
+        {
+            priority: 'urgent',
+            icon: 'e911_emergency',
+        }, 
+        {
+            priority: 'important',
+            icon: 'priority_high',
+        },
+        {
+            priority: 'low priority',
+            icon: 'low_priority'
+        }, 
+        {
+            priority: 'none',
+            icon: 'do_not_disturb_on',
+        },
+    ];
 
     const optionsContainer = document.createElement('div')
     const priorityOptions = document.createElement('ul');
@@ -70,9 +90,19 @@ function priorityOptions() {
 
     options.forEach((option) => {
         const list = document.createElement('li');
-        list.classList.add('priority-option');
-        list.textContent = option;
+        const listIcon = document.createElement('span');
 
+        list.classList.add('priority-option');
+        list.textContent = option.priority;
+        listIcon.classList.add('material-symbols-outlined');
+        listIcon.textContent = option.icon;
+
+        list.addEventListener('click', () => {
+            changeCurrentPriority(option);
+            removeElement('.options-container');
+        })
+
+        list.prepend(listIcon);
         priorityOptions.appendChild(list);
     });
 
@@ -80,4 +110,37 @@ function priorityOptions() {
     return optionsContainer;
 }
 
-console.log(priorityOptions());
+function changeCurrentPriority(option) {
+    const currentPriority = document.querySelector('.current-priority');
+    const currentPriorityIcon = document.querySelector('.current-priority-icon');
+    currentPriority.textContent = option.priority;
+    currentPriorityIcon.textContent = option.icon;
+
+    // since textcontent erases all descendants
+    // we will have to prepend currentPriorityIcon again
+    currentPriority.prepend(currentPriorityIcon);
+
+    removeOverlay();
+}
+
+function addOverlay(elementName) {
+    const overlay = document.createElement('div');
+    overlay.classList.add('overlay');
+
+    overlay.addEventListener('click', (event) => {
+        removeElement(elementName);
+        removeOverlay();
+    });
+
+    document.body.appendChild(overlay);
+}
+
+function removeElement(elementName) {
+    const element = document.querySelector(elementName);
+    element.remove();
+}
+
+function removeOverlay() {
+    const overlay = document.querySelector('.overlay');
+    overlay.remove();
+}
