@@ -28,6 +28,56 @@ export function addTodo() {
     formContainer.appendChild(titleInput);
     formContainer.appendChild(descriptionLabel);
     formContainer.appendChild(descriptionInput);
+    formContainer.appendChild(prioritySelect())
 
     main.appendChild(formContainer);
 }
+
+function prioritySelect() {
+    // creates priority button on addTodo form
+    const priorityContainer = document.createElement('div');
+    const currentPriority = document.createElement('button');
+    const currentPriorityIcon = document.createElement('span');
+
+    currentPriority.type = 'button';
+    currentPriority.textContent = 'none';
+    currentPriorityIcon.classList.add('material-symbols-outlined');
+    currentPriorityIcon.textContent = 'do_not_disturb_on';
+
+    priorityContainer.classList.add('priority-container');
+
+    currentPriority.prepend(currentPriorityIcon);
+    priorityContainer.appendChild(currentPriority);
+
+    currentPriority.addEventListener('click', (event) => {
+        const getOptionsContainer = document.querySelector('.options-container');
+        if (!priorityContainer.contains(getOptionsContainer)) {
+            priorityContainer.appendChild(priorityOptions());
+        }
+    });
+
+    return priorityContainer;
+}
+
+function priorityOptions() {
+    const options = ['urgent', 'important', 'low priority', 'none'];
+
+    const optionsContainer = document.createElement('div')
+    const priorityOptions = document.createElement('ul');
+
+    optionsContainer.classList.add('options-container');
+    priorityOptions.classList.add('priority-options');
+
+    options.forEach((option) => {
+        const list = document.createElement('li');
+        list.classList.add('priority-option');
+        list.textContent = option;
+
+        priorityOptions.appendChild(list);
+    });
+
+    optionsContainer.appendChild(priorityOptions);
+    return optionsContainer;
+}
+
+console.log(priorityOptions());
