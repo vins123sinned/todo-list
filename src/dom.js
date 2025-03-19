@@ -29,6 +29,7 @@ export function addTodo() {
     formContainer.appendChild(descriptionLabel);
     formContainer.appendChild(descriptionInput);
     formContainer.appendChild(dateSelect());
+    formContainer.appendChild(timeSelect());
     formContainer.appendChild(prioritySelect());
 
     main.appendChild(formContainer);
@@ -164,6 +165,7 @@ function dateDropdown() {
     dateInput.name = 'date';
     dateInput.value = currentDate;
     dateInput.min = currentDate;
+    dateInput.required = true;
     dateCancel.type = 'button';
     dateCancel.textContent = 'Cancel';
     dateSubmit.type = 'button';
@@ -185,6 +187,66 @@ function dateDropdown() {
     });
 
     return dateDropdown;
+}
+
+function timeSelect() {
+    const timeContainer = document.createElement('div');
+    const timeButton = document.createElement('button');
+    const timeIcon = document.createElement('span');
+
+    timeButton.type = 'button';
+    timeButton.textContent = 'Time';
+    timeIcon.classList.add('material-symbols-outlined');
+    timeIcon.textContent = 'schedule';
+
+    timeButton.classList.add('current-time');
+    timeIcon.classList.add('time-icon');
+
+    timeButton.prepend(timeIcon);
+    timeContainer.appendChild(timeButton);
+
+    timeButton.addEventListener('click', () => {
+        const getTimeDropdown = document.querySelector('.time-dropdown');
+        if (!timeContainer.contains(getTimeDropdown)) {
+            timeContainer.appendChild(timeDropdown());
+            addOverlay('.time-dropdown');
+        }
+    });
+
+    return timeContainer;
+}
+
+function timeDropdown() {
+    const timeDropdown = document.createElement('div');
+    const timeInput = document.createElement('input');
+    const timeCancel = document.createElement('button');
+    const timeSubmit = document.createElement('button');
+
+    timeInput.type = 'time';
+    timeInput.id = 'time';
+    timeInput.name = 'time';
+    timeInput.required = true;
+    timeCancel.type = 'button';
+    timeCancel.textContent = 'Cancel';
+    timeSubmit.type = 'button';
+    timeSubmit.textContent = 'Submit';
+
+    timeDropdown.classList.add('time-dropdown');
+    timeInput.classList.add('time-input');
+
+    timeDropdown.appendChild(timeInput);
+    timeDropdown.appendChild(timeCancel);
+    timeDropdown.appendChild(timeSubmit);
+
+    timeCancel.addEventListener('click', () => {
+        removeTimeDropdown();
+    });
+
+    timeSubmit.addEventListener('click', () => {
+        timeSubmitClicked();
+    });
+
+    return timeDropdown;
 }
 
 function addOverlay(elementName) {
@@ -235,8 +297,10 @@ function dateSubmitClicked() {
     const dateInput = document.querySelector('.date-input');
     
     if (!dateInput.checkValidity()) {
+        if (document.querySelector('.error-message')) return;
+
         const errorMessage = document.createElement('p');
-        errorMessage.classList.add('.error-message');
+        errorMessage.classList.add('error-message');
         errorMessage.textContent = 'Date is invalid!';
 
         dateDropdown.appendChild(errorMessage);
@@ -255,4 +319,38 @@ function updateDateButton() {
     dateButton.prepend(dateIcon);
 
     removeDateDropdown();
+}
+
+function removeTimeDropdown() {
+    removeElement('.time-dropdown');
+    removeOverlay();
+}
+
+function timeSubmitClicked() {
+    const timeDropdown = document.querySelector('.time-dropdown');
+    const timeInput = document.querySelector('.time-input');
+
+    if (!timeInput.checkValidity()) {
+        if (document.querySelector('.error-message')) return;
+
+        const errorMessage = document.createElement('p');
+        errorMessage.classList.add('error-message');
+        errorMessage.textContent = 'Time is invalid!';
+
+        timeDropdown.appendChild(errorMessage);
+    } else {
+        updateTimeButton();
+    }
+}
+
+function updateTimeButton() {
+    const timeButton = document.querySelector('.current-time');
+    const timeInput = document.querySelector('.time-input');
+    const timeIcon = document.querySelector('.time-icon');
+
+    //use date-fns later to format
+    timeButton.textContent = timeInput.value;
+    timeButton.prepend(timeIcon);
+
+    removeTimeDropdown();
 }
