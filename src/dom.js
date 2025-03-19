@@ -28,7 +28,8 @@ export function addTodo() {
     formContainer.appendChild(titleInput);
     formContainer.appendChild(descriptionLabel);
     formContainer.appendChild(descriptionInput);
-    formContainer.appendChild(prioritySelect())
+    formContainer.appendChild(dateSelect());
+    formContainer.appendChild(prioritySelect());
 
     main.appendChild(formContainer);
 }
@@ -51,7 +52,7 @@ function prioritySelect() {
     currentPriority.prepend(currentPriorityIcon);
     priorityContainer.appendChild(currentPriority);
 
-    currentPriority.addEventListener('click', (event) => {
+    currentPriority.addEventListener('click', () => {
         const getOptionsContainer = document.querySelector('.options-container');
         if (!priorityContainer.contains(getOptionsContainer)) {
             priorityContainer.appendChild(priorityOptions());
@@ -123,11 +124,74 @@ function changeCurrentPriority(option) {
     removeOverlay();
 }
 
+function dateSelect() {
+    const dateContainer = document.createElement('div');
+    const dateButton = document.createElement('button');
+    const dateIcon = document.createElement('span');
+
+    dateButton.type = 'button';
+    dateButton.textContent = 'Date';
+    dateIcon.classList.add('material-symbols-outlined');
+    dateIcon.textContent = 'edit_calendar';
+
+    dateButton.classList.add('current-date');
+    dateIcon.classList.add('date-icon');
+
+    dateButton.prepend(dateIcon);
+    dateContainer.appendChild(dateButton);
+
+    dateButton.addEventListener('click', () => {
+        const getDateDropdown = document.querySelector('.date-dropdown');
+        if (!dateContainer.contains(getDateDropdown)) {
+            dateContainer.appendChild(dateDropdown());
+            addOverlay('.date-dropdown');
+        }
+    });
+
+    return dateContainer;
+}
+
+function dateDropdown() {
+    const currentDate = getCurrentDate();
+
+    const dateDropdown = document.createElement('div');
+    const dateInput = document.createElement('input');
+    const dateCancel = document.createElement('button');
+    const dateSubmit = document.createElement('button');
+
+    dateInput.type = 'date';
+    dateInput.id = 'date';
+    dateInput.name = 'date';
+    dateInput.value = currentDate;
+    dateInput.min = currentDate;
+    dateCancel.type = 'button';
+    dateCancel.textContent = 'Cancel';
+    dateSubmit.type = 'button';
+    dateSubmit.textContent = 'Submit';
+
+    dateDropdown.classList.add('date-dropdown');
+    dateInput.classList.add('date-input');
+
+    dateDropdown.appendChild(dateInput);
+    dateDropdown.appendChild(dateCancel);
+    dateDropdown.appendChild(dateSubmit);
+
+    dateCancel.addEventListener('click', () => {
+        removeDateDropdown();
+    });
+
+    dateSubmit.addEventListener('click', () => {
+        dateSubmitClicked();
+    });
+
+    return dateDropdown;
+}
+
 function addOverlay(elementName) {
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
 
-    overlay.addEventListener('click', (event) => {
+    overlay.addEventListener('click', () => {
         removeElement(elementName);
         removeOverlay();
     });
@@ -143,4 +207,52 @@ function removeElement(elementName) {
 function removeOverlay() {
     const overlay = document.querySelector('.overlay');
     overlay.remove();
+}
+
+function getCurrentDate() {
+    const date = new Date();
+
+    let day = date.getDate().toString();
+    let month = (date.getMonth() + 1).toString();
+    let year = date.getFullYear().toString();
+
+    if (month.length === 1) {
+        month = '0' + month;
+    } else if (day.length === 1) {
+        day = '0' + day;
+    }
+
+    return `${year}-${month}-${day}`;
+}
+
+function removeDateDropdown() {
+    removeElement('.date-dropdown');
+    removeOverlay();
+}
+
+function dateSubmitClicked() {
+    const dateDropdown = document.querySelector('.date-dropdown');
+    const dateInput = document.querySelector('.date-input');
+    
+    if (!dateInput.checkValidity()) {
+        const errorMessage = document.createElement('p');
+        errorMessage.classList.add('.error-message');
+        errorMessage.textContent = 'Date is invalid!';
+
+        dateDropdown.appendChild(errorMessage);
+    } else {
+        updateDateButton();
+    }
+}
+
+function updateDateButton() {
+    const dateButton = document.querySelector('.current-date');
+    const dateInput = document.querySelector('.date-input');
+    const dateIcon = document.querySelector('.date-icon');
+
+    //use date-fns later to format
+    dateButton.textContent = dateInput.value;
+    dateButton.prepend(dateIcon);
+
+    removeDateDropdown();
 }
