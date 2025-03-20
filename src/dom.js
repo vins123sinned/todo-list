@@ -355,6 +355,14 @@ function updateTimeButton() {
     removeTimeDropdown();
 }
 
+(function addSectionListener() {
+    const sectionAdd = document.querySelector('.section-add');
+    sectionAdd.addEventListener('click', () => {
+        document.body.appendChild(showSectionForm());
+        addOverlay('.section-form');
+    }); 
+})();
+
 export function showSections() {
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
@@ -387,9 +395,47 @@ export function showSections() {
     });
 }
 
-(function addSectionListener() {
-    const sectionAdd = document.querySelector('.section-add');
-    sectionAdd.addEventListener('click', () => {
-        console.log('Add functionality goes here!')
-    }); 
-})();
+function showSectionForm() {
+    const sectionForm = document.createElement('form');
+    const formHeading = document.createElement('h1');
+    const nameLabel = document.createElement('label');
+    const nameInput = document.createElement('input');
+    const formCancel = document.createElement('button');
+    const formSubmit = document.createElement('button');
+
+    formHeading.textContent = 'Add Section';
+    nameLabel.htmlFor = 'name';
+    nameLabel.textContent = 'Name (Max 32 characters)';
+    nameInput.type = 'text';
+    nameInput.id = 'name';
+    nameInput.name = 'name';
+    nameInput.required = true;
+    nameInput.maxLength = '32';
+    formCancel.type = 'button';
+    formCancel.textContent = 'Cancel';
+    formSubmit.type = 'button';
+    formSubmit.textContent = 'Add';
+
+    sectionForm.classList.add('section-form');
+
+    sectionForm.appendChild(formHeading);
+    sectionForm.appendChild(nameLabel);
+    sectionForm.appendChild(nameInput);
+    sectionForm.appendChild(formCancel);
+    sectionForm.appendChild(formSubmit);
+
+    formCancel.addEventListener('click', () => {
+        removeSectionForm();
+    });
+
+    formSubmit.addEventListener('click', () => {
+        //formSubmitClicked(); function here!
+    })
+
+    return sectionForm;
+}
+
+function removeSectionForm() {
+    removeElement('.section-form');
+    removeOverlay();
+}

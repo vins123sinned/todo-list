@@ -138,7 +138,8 @@ ul li {
 /* addTodo form styling */
 .options-container,
 .date-dropdown,
-.time-dropdown {
+.time-dropdown,
+.section-form {
     position: relative;
     z-index: 999;
     border: 1px solid black;
