@@ -354,3 +354,42 @@ function updateTimeButton() {
 
     removeTimeDropdown();
 }
+
+export function showSections() {
+    const getSections = localStorage.getItem('sections');
+    const sections = JSON.parse(getSections);
+    
+    const sectionsList = document.querySelector('.sections-list');
+    sections.forEach((section) => {
+        const list = document.createElement('li');
+        const listRight = document.createElement('div');
+        const sectionIcon = document.createElement('span');
+        const deleteIcon = document.createElement('span');
+
+        list.classList.add('section-option');
+        listRight.classList.add('list-right');
+        sectionIcon.classList.add('material-symbols-outlined');
+        deleteIcon.classList.add('material-symbols-outlined', 'section-delete');
+
+        listRight.textContent = section;
+        sectionIcon.textContent = 'tag';
+        deleteIcon.textContent = 'delete';
+
+        list.appendChild(listRight);
+        list.appendChild(deleteIcon);
+        listRight.prepend(sectionIcon);
+
+        deleteIcon.addEventListener('click', () => {
+            console.log('Delete functionality goes here!')
+        });
+
+        sectionsList.appendChild(list);
+    });
+}
+
+(function addSectionListener() {
+    const sectionAdd = document.querySelector('.section-add');
+    sectionAdd.addEventListener('click', () => {
+        console.log('Add functionality goes here!')
+    }); 
+})();
