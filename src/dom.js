@@ -316,15 +316,22 @@ function showDropdown(containerName, dropdownName, dropdownFunction) {
 }
 
 function showErrorMessage(elementName, message) {
-    if (document.querySelector('.error-message')) return;
+    const error = document.querySelector('.error-message');
+    
+    if (error) {
+        if (`.${error.parentNode.className}` === elementName) {
+            // update error message text if it already exists
+            error.textContent = message;
+        }
+    } else {
+        const errorMessage = document.createElement('p');
+        const element = document.querySelector(elementName);
 
-    const errorMessage = document.createElement('p');
-    const element = document.querySelector(elementName);
+        errorMessage.classList.add('error-message');
+        errorMessage.textContent = message;
 
-    errorMessage.classList.add('error-message');
-    errorMessage.textContent = message;
-
-    element.appendChild(errorMessage);
+        element.appendChild(errorMessage);
+    }
 }
 
 function getCurrentDate() {
@@ -445,8 +452,13 @@ function sectionSubmitClicked(event) {
     const nameInput = document.querySelector('.name-input');
     const name = nameInput.value;
 
+    const getSections = localStorage.getItem('sections');
+    const sections = JSON.parse(getSections);
+
     if (!nameInput.checkValidity()) {
         showErrorMessage('.name-container', 'Name must not be empty!');
+    } else if (sections.includes(name)) {
+        showErrorMessage('.name-container', 'There is already a section with that name!');
     } else {
         addSection(name);
     }
