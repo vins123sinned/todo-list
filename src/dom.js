@@ -54,17 +54,13 @@ function prioritySelect() {
     priorityContainer.appendChild(currentPriority);
 
     currentPriority.addEventListener('click', () => {
-        const getOptionsContainer = document.querySelector('.options-container');
-        if (!priorityContainer.contains(getOptionsContainer)) {
-            priorityContainer.appendChild(priorityOptions());
-            addOverlay('.options-container');
-        }
+        showDropdown('.priority-container', '.priority-dropdown', priorityDropdown);
     });
 
     return priorityContainer;
 }
 
-function priorityOptions() {
+function priorityDropdown() {
     const options = [
         {
             priority: 'urgent',
@@ -84,10 +80,10 @@ function priorityOptions() {
         },
     ];
 
-    const optionsContainer = document.createElement('div')
+    const priorityDropdown = document.createElement('div')
     const priorityOptions = document.createElement('ul');
 
-    optionsContainer.classList.add('options-container');
+    priorityDropdown.classList.add('priority-dropdown');
     priorityOptions.classList.add('priority-options');
 
     options.forEach((option) => {
@@ -101,15 +97,15 @@ function priorityOptions() {
 
         list.addEventListener('click', () => {
             changeCurrentPriority(option);
-            removeElement('.options-container');
+            removeElement('.priority-dropdown');
         })
 
         list.prepend(listIcon);
         priorityOptions.appendChild(list);
     });
 
-    optionsContainer.appendChild(priorityOptions);
-    return optionsContainer;
+    priorityDropdown.appendChild(priorityOptions);
+    return priorityDropdown;
 }
 
 function changeCurrentPriority(option) {
@@ -121,8 +117,6 @@ function changeCurrentPriority(option) {
     // since textcontent erases all descendants
     // we will have to prepend currentPriorityIcon again
     currentPriority.prepend(currentPriorityIcon);
-
-    removeOverlay();
 }
 
 function dateSelect() {
@@ -135,6 +129,7 @@ function dateSelect() {
     dateIcon.classList.add('material-symbols-outlined');
     dateIcon.textContent = 'edit_calendar';
 
+    dateContainer.classList.add('date-container');
     dateButton.classList.add('current-date');
     dateIcon.classList.add('date-icon');
 
@@ -142,11 +137,7 @@ function dateSelect() {
     dateContainer.appendChild(dateButton);
 
     dateButton.addEventListener('click', () => {
-        const getDateDropdown = document.querySelector('.date-dropdown');
-        if (!dateContainer.contains(getDateDropdown)) {
-            dateContainer.appendChild(dateDropdown());
-            addOverlay('.date-dropdown');
-        }
+        showDropdown('.date-container', '.date-dropdown', dateDropdown);
     });
 
     return dateContainer;
@@ -179,7 +170,7 @@ function dateDropdown() {
     dateDropdown.appendChild(dateSubmit);
 
     dateCancel.addEventListener('click', () => {
-        removeDateDropdown();
+        removeElement('.date-dropdown');
     });
 
     dateSubmit.addEventListener('click', () => {
@@ -187,6 +178,28 @@ function dateDropdown() {
     });
 
     return dateDropdown;
+}
+
+function dateSubmitClicked() {
+    const dateInput = document.querySelector('.date-input');
+    
+    if (!dateInput.checkValidity()) {
+        showErrorMessage('.date-dropdown', 'Date is invalid!');
+    } else {
+        updateDateButton();
+    }
+}
+
+function updateDateButton() {
+    const dateButton = document.querySelector('.current-date');
+    const dateInput = document.querySelector('.date-input');
+    const dateIcon = document.querySelector('.date-icon');
+
+    //use date-fns later to format
+    dateButton.textContent = dateInput.value;
+    dateButton.prepend(dateIcon);
+
+    removeElement('.date-dropdown');
 }
 
 function timeSelect() {
@@ -199,6 +212,7 @@ function timeSelect() {
     timeIcon.classList.add('material-symbols-outlined');
     timeIcon.textContent = 'schedule';
 
+    timeContainer.classList.add('time-container');
     timeButton.classList.add('current-time');
     timeIcon.classList.add('time-icon');
 
@@ -206,11 +220,7 @@ function timeSelect() {
     timeContainer.appendChild(timeButton);
 
     timeButton.addEventListener('click', () => {
-        const getTimeDropdown = document.querySelector('.time-dropdown');
-        if (!timeContainer.contains(getTimeDropdown)) {
-            timeContainer.appendChild(timeDropdown());
-            addOverlay('.time-dropdown');
-        }
+        showDropdown('.time-container', '.time-dropdown', timeDropdown);
     });
 
     return timeContainer;
@@ -239,7 +249,7 @@ function timeDropdown() {
     timeDropdown.appendChild(timeSubmit);
 
     timeCancel.addEventListener('click', () => {
-        removeTimeDropdown();
+        removeElement('.time-dropdown');
     });
 
     timeSubmit.addEventListener('click', () => {
@@ -249,13 +259,34 @@ function timeDropdown() {
     return timeDropdown;
 }
 
+function timeSubmitClicked() {
+    const timeInput = document.querySelector('.time-input');
+
+    if (!timeInput.checkValidity()) {
+        showErrorMessage('.time-dropdown', 'Time is invalid!');
+    } else {
+        updateTimeButton();
+    }
+}
+
+function updateTimeButton() {
+    const timeButton = document.querySelector('.current-time');
+    const timeInput = document.querySelector('.time-input');
+    const timeIcon = document.querySelector('.time-icon');
+
+    //use date-fns later to format
+    timeButton.textContent = timeInput.value;
+    timeButton.prepend(timeIcon);
+
+    removeElement('.time-dropdown');;
+}
+
 function addOverlay(elementName) {
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
 
     overlay.addEventListener('click', () => {
         removeElement(elementName);
-        removeOverlay();
     });
 
     document.body.appendChild(overlay);
@@ -263,12 +294,32 @@ function addOverlay(elementName) {
 
 function removeElement(elementName) {
     const element = document.querySelector(elementName);
+    const overlay = document.querySelector('.overlay');
+
     element.remove();
+    if (overlay) overlay.remove();
 }
 
-function removeOverlay() {
-    const overlay = document.querySelector('.overlay');
-    overlay.remove();
+function showDropdown(containerName, dropdownName, dropdownFunction) {
+    const container = document.querySelector(containerName);
+    const dropdown = document.querySelector(dropdownName);
+
+    if (!container.contains(dropdown)) {
+        container.appendChild(dropdownFunction());
+        addOverlay(dropdownName);
+    }
+}
+
+function showErrorMessage(dropdownName, message) {
+    if (document.querySelector('.error-message')) return;
+
+    const errorMessage = document.createElement('p');
+    const dropdown = document.querySelector(dropdownName)
+
+    errorMessage.classList.add('error-message');
+    errorMessage.textContent = message;
+
+    dropdown.appendChild(errorMessage);
 }
 
 function getCurrentDate() {
@@ -287,73 +338,7 @@ function getCurrentDate() {
     return `${year}-${month}-${day}`;
 }
 
-function removeDateDropdown() {
-    removeElement('.date-dropdown');
-    removeOverlay();
-}
-
-function dateSubmitClicked() {
-    const dateDropdown = document.querySelector('.date-dropdown');
-    const dateInput = document.querySelector('.date-input');
-    
-    if (!dateInput.checkValidity()) {
-        if (document.querySelector('.error-message')) return;
-
-        const errorMessage = document.createElement('p');
-        errorMessage.classList.add('error-message');
-        errorMessage.textContent = 'Date is invalid!';
-
-        dateDropdown.appendChild(errorMessage);
-    } else {
-        updateDateButton();
-    }
-}
-
-function updateDateButton() {
-    const dateButton = document.querySelector('.current-date');
-    const dateInput = document.querySelector('.date-input');
-    const dateIcon = document.querySelector('.date-icon');
-
-    //use date-fns later to format
-    dateButton.textContent = dateInput.value;
-    dateButton.prepend(dateIcon);
-
-    removeDateDropdown();
-}
-
-function removeTimeDropdown() {
-    removeElement('.time-dropdown');
-    removeOverlay();
-}
-
-function timeSubmitClicked() {
-    const timeDropdown = document.querySelector('.time-dropdown');
-    const timeInput = document.querySelector('.time-input');
-
-    if (!timeInput.checkValidity()) {
-        if (document.querySelector('.error-message')) return;
-
-        const errorMessage = document.createElement('p');
-        errorMessage.classList.add('error-message');
-        errorMessage.textContent = 'Time is invalid!';
-
-        timeDropdown.appendChild(errorMessage);
-    } else {
-        updateTimeButton();
-    }
-}
-
-function updateTimeButton() {
-    const timeButton = document.querySelector('.current-time');
-    const timeInput = document.querySelector('.time-input');
-    const timeIcon = document.querySelector('.time-icon');
-
-    //use date-fns later to format
-    timeButton.textContent = timeInput.value;
-    timeButton.prepend(timeIcon);
-
-    removeTimeDropdown();
-}
+// section form
 
 (function addSectionListener() {
     const sectionAdd = document.querySelector('.section-add');
@@ -425,7 +410,7 @@ function showSectionForm() {
     sectionForm.appendChild(formSubmit);
 
     formCancel.addEventListener('click', () => {
-        removeSectionForm();
+        removeElement('.section-form');
     });
 
     formSubmit.addEventListener('click', () => {
@@ -433,9 +418,4 @@ function showSectionForm() {
     })
 
     return sectionForm;
-}
-
-function removeSectionForm() {
-    removeElement('.section-form');
-    removeOverlay();
 }
