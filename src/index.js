@@ -1,6 +1,7 @@
 import "./style.css";
-import { Todo, addSectionForm } from "./todo.js";
-import { addTodo, showSections } from "./dom.js";
+import { Todo } from "./todo.js";
+import { addTodo } from "./add-todo.js";
+import { showSections } from "./section.js";
 
 addTodo();
 showSections();
