@@ -29,7 +29,8 @@ ul li {
     list-style-type: none;
 }
 
-button:hover {
+button:hover,
+.material-symbols-outlined:hover {
     cursor: pointer;
 }
 
@@ -165,10 +166,10 @@ button:hover {
 }
 
 /* section form styling */
-.section-form {
+.section-form,
+.delete-confirmation {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     position: absolute;
     margin: auto;
     top: 0;
@@ -179,21 +180,46 @@ button:hover {
     height: 30vh;
     background-color: #fff;
     border-radius: 15px;
-    text-align: center;
 
     border: none;
-    padding: 1rem;
 }
 
-.form-heading {
-    font-size: 1.5rem;
+.heading-container,
+.name-container {
+    padding: 0.75rem 1rem;
+}
+
+.heading-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #faf8f8;
+}
+
+.form-heading,
+.delete-heading {
+    font-size: 1.25rem;
     margin: 0;
+}
+
+.close-icon {
+    margin: 0;
+}
+
+.close-icon:hover {
+    background-color: #faf8f8;
+    border-radius: 5px;
 }
 
 .name-label {
     display: block;
     font-weight: 600;
     margin-bottom: 1rem;
+}
+
+.name-container {
+    flex-grow: 1;
+    margin-top: 1rem;
 }
 
 .name-input {
@@ -213,18 +239,17 @@ button:hover {
 
 .error-message {
     position: absolute;
-    top: 160px;
-    left: 0;
-    right: 0;
+    top: 150px;
     color: #d90429;
 }
 
 .buttons-container {
-    padding: 0.25rem;
+    margin: 0 1rem 1rem auto;
 }
 
 .cancel-button,
-.submit-button {
+.submit-button,
+.delete-button {
     font-size: 1rem;
     font-weight: 600;
     border: none;
@@ -252,3 +277,27 @@ button:hover {
 .submit-button:hover {
     background-color: #02669c;
 }
+
+/* delete confirmation styling */
+.delete-confirmation {
+    padding: 1.25rem;
+    height: 20vh;
+}
+
+.delete-para {
+    flex-grow: 1;
+}
+
+.delete-confirmation .buttons-container {
+    margin-right: 0;
+}
+
+.delete-button {
+    background-color: #d90429;
+    color: #fff;
+}
+
+.delete-button:hover {
+    background-color: #c70425;
+}
+

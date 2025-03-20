@@ -398,7 +398,9 @@ export function showSections() {
 
 function showSectionForm() {
     const sectionForm = document.createElement('form');
+    const headingContainer = document.createElement('div');
     const formHeading = document.createElement('h1');
+    const closeIcon = document.createElement('span');
     const nameContainer = document.createElement('div');
     const nameLabel = document.createElement('label');
     const nameInput = document.createElement('input');
@@ -407,6 +409,7 @@ function showSectionForm() {
     const submitButton = document.createElement('button');
 
     formHeading.textContent = 'Add Section';
+    closeIcon.textContent = 'close';
     nameLabel.htmlFor = 'name';
     nameLabel.textContent = 'Name (Max 28 characters)';
     nameInput.type = 'text';
@@ -420,7 +423,9 @@ function showSectionForm() {
     submitButton.textContent = 'Add';
 
     sectionForm.classList.add('section-form');
+    headingContainer.classList.add('heading-container');
     formHeading.classList.add('form-heading');
+    closeIcon.classList.add('material-symbols-outlined', 'close-icon');
     nameContainer.classList.add('name-container');
     nameLabel.classList.add('name-label');
     nameInput.classList.add('name-input');
@@ -428,13 +433,19 @@ function showSectionForm() {
     cancelButton.classList.add('cancel-button');
     submitButton.classList.add('submit-button');
 
-    sectionForm.appendChild(formHeading);
+    headingContainer.appendChild(formHeading);
+    headingContainer.appendChild(closeIcon);
+    sectionForm.appendChild(headingContainer);
     nameContainer.appendChild(nameLabel);
     nameContainer.appendChild(nameInput);
     sectionForm.appendChild(nameContainer);
     buttonsContainer.appendChild(cancelButton);
     buttonsContainer.appendChild(submitButton);
     sectionForm.appendChild(buttonsContainer);
+
+    closeIcon.addEventListener('click', () => {
+        removeElement('.section-form');
+    });
 
     cancelButton.addEventListener('click', () => {
         removeElement('.section-form');
@@ -491,8 +502,12 @@ function deleteSectionConfirmation(section) {
     const cancelButton = document.createElement('button');
     const deleteButton = document.createElement('button');
 
+    const deletePara1 = document.createTextNode('Doing so will permanently delete the ');
+    const deletePara2 = document.createElement('strong');
+    const deletePara3 = document.createTextNode(' section and all of its todos');
+
     deleteHeading.textContent = 'Delete Section?';
-    deletePara.textContent = 'Doing so will permanently delete the sections and all of its todos';
+    deletePara2.textContent = section;
     cancelButton.type = 'button';
     cancelButton.textContent = 'Cancel';
     deleteButton.type = 'button';
@@ -505,6 +520,10 @@ function deleteSectionConfirmation(section) {
     cancelButton.classList.add('cancel-button');
     deleteButton.classList.add('delete-button');
     
+    deletePara.appendChild(deletePara1);
+    deletePara.appendChild(deletePara2);
+    deletePara.appendChild(deletePara3);
+
     deleteConfirmation.appendChild(deleteHeading);
     deleteConfirmation.appendChild(deletePara);
     buttonsContainer.appendChild(cancelButton);
