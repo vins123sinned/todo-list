@@ -310,16 +310,16 @@ function showDropdown(containerName, dropdownName, dropdownFunction) {
     }
 }
 
-function showErrorMessage(dropdownName, message) {
+function showErrorMessage(elementName, message) {
     if (document.querySelector('.error-message')) return;
 
     const errorMessage = document.createElement('p');
-    const dropdown = document.querySelector(dropdownName)
+    const element = document.querySelector(elementName);
 
     errorMessage.classList.add('error-message');
     errorMessage.textContent = message;
 
-    dropdown.appendChild(errorMessage);
+    element.appendChild(errorMessage);
 }
 
 function getCurrentDate() {
@@ -343,6 +343,7 @@ function getCurrentDate() {
 (function addSectionListener() {
     const sectionAdd = document.querySelector('.section-add');
     sectionAdd.addEventListener('click', () => {
+        //maybe this isn't needed...
         document.body.appendChild(showSectionForm());
         addOverlay('.section-form');
     }); 
@@ -351,8 +352,9 @@ function getCurrentDate() {
 export function showSections() {
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
-    
+
     const sectionsList = document.querySelector('.sections-list');
+
     sections.forEach((section) => {
         const list = document.createElement('li');
         const listRight = document.createElement('div');
@@ -373,7 +375,7 @@ export function showSections() {
         listRight.prepend(sectionIcon);
 
         deleteIcon.addEventListener('click', () => {
-            console.log('Delete functionality goes here!')
+            console.log('Delete functionality goes here!');
         });
 
         sectionsList.appendChild(list);
@@ -383,6 +385,7 @@ export function showSections() {
 function showSectionForm() {
     const sectionForm = document.createElement('form');
     const formHeading = document.createElement('h1');
+    const nameContainer = document.createElement('div');
     const nameLabel = document.createElement('label');
     const nameInput = document.createElement('input');
     const formCancel = document.createElement('button');
@@ -398,14 +401,17 @@ function showSectionForm() {
     nameInput.maxLength = '32';
     formCancel.type = 'button';
     formCancel.textContent = 'Cancel';
-    formSubmit.type = 'button';
+    formSubmit.type = 'submit';
     formSubmit.textContent = 'Add';
 
     sectionForm.classList.add('section-form');
+    nameContainer.classList.add('name-container');
+    nameInput.classList.add('name-input');
 
     sectionForm.appendChild(formHeading);
-    sectionForm.appendChild(nameLabel);
-    sectionForm.appendChild(nameInput);
+    nameContainer.appendChild(nameLabel);
+    nameContainer.appendChild(nameInput);
+    sectionForm.appendChild(nameContainer);
     sectionForm.appendChild(formCancel);
     sectionForm.appendChild(formSubmit);
 
@@ -413,9 +419,40 @@ function showSectionForm() {
         removeElement('.section-form');
     });
 
-    formSubmit.addEventListener('click', () => {
-        //formSubmitClicked(); function here!
+    formSubmit.addEventListener('click', (event) => {
+        sectionSubmitClicked(event);
     })
 
     return sectionForm;
+}
+
+function sectionSubmitClicked(event) {
+    event.preventDefault();
+    const nameInput = document.querySelector('.name-input');
+    const name = nameInput.value;
+
+    if (!nameInput.checkValidity()) {
+        showErrorMessage('.name-container', 'Name must not be empty or exceed 32 characters!');
+    } else {
+        addSection(name);
+    }
+}
+
+function addSection(name) {
+    const getSections = localStorage.getItem('sections');
+    const sections = JSON.parse(getSections);
+
+    sections.push(name);
+    const stringifiedSections = JSON.stringify(sections);
+    localStorage.setItem('sections', stringifiedSections);
+
+    removeElement('.section-form');
+    updateSections();
+}
+
+function updateSections() {
+    const sectionsList = document.querySelector('.sections-list');
+
+    sectionsList.replaceChildren();
+    showSections();
 }
