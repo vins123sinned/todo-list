@@ -15,7 +15,8 @@ body {
 body,
 ul,
 .profile-heading,
-.image-attribution {
+.image-attribution,
+.sections-heading {
     padding: 0;
     margin: 0;
 }
@@ -33,6 +34,10 @@ ul li {
 .sidebar {
     width: clamp(300px, 30%, 400px);
     padding: 1.75rem;
+}
+
+.sidebar-options-container {
+    margin-bottom: 1rem;
 }
 
 .profile {
@@ -57,14 +62,18 @@ ul li {
     color: #5e5c5c;;
 }
 
-.sidebar-option {
+.sidebar-option,
+.sections-heading-container,
+.section-option {
     display: flex;
     align-items: center;
     padding: 0.5rem;
     border-radius: 0.5rem;
 }
 
-.sidebar-option:hover {
+.sidebar-option:hover,
+.section-option:hover,
+.sections-heading-container:hover {
     cursor: pointer;
     color: #0077b6;
     background-color: #dbf1f5;
@@ -78,9 +87,11 @@ ul li {
     margin-right: 0.5rem;
 }
 
-.sidebar-option:hover .material-symbols-outlined {
+.sidebar-option:hover .material-symbols-outlined,
+.section-option:hover .material-symbols-outlined {
     font-variation-settings: 
-    'FILL' 1;
+    'FILL' 1,
+    'wght' 200;
     color: #0077b6;
 }
 
@@ -88,6 +99,40 @@ ul li {
     font-variation-settings: 
     'FILL' 1;
     color: #0077b6;
+}
+
+/* sections styling */
+.section-add,
+.section-delete {
+    visibility: hidden;
+    margin: 0;
+}
+
+.sections-heading-container,
+.section-option {
+    justify-content: space-between;
+}
+
+.sections-heading-container:hover .section-add,
+.section-option:hover .section-delete  {
+    visibility: visible;
+}
+
+.sections-heading {
+    font-size: 1.25rem;
+    color: #807d7d;
+}
+
+.section-option:hover .section-delete {
+    font-variation-settings: 
+    'FILL' 0,
+    'wght' 200;
+    color: #666666;
+}
+
+.list-right {
+    display: flex;
+    align-items: center;
 }
 
 /* addTodo form styling */
