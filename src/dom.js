@@ -380,7 +380,9 @@ export function showSections() {
         listRight.prepend(sectionIcon);
 
         deleteIcon.addEventListener('click', () => {
-            console.log('Delete functionality goes here!');
+            deleteSectionConfirmation(section);
+            addOverlay('.delete-confirmation');
+            addOverlayBackground();
         });
 
         sectionsList.appendChild(list);
@@ -394,8 +396,8 @@ function showSectionForm() {
     const nameLabel = document.createElement('label');
     const nameInput = document.createElement('input');
     const buttonsContainer = document.createElement('div');
-    const formCancel = document.createElement('button');
-    const formSubmit = document.createElement('button');
+    const cancelButton = document.createElement('button');
+    const submitButton = document.createElement('button');
 
     formHeading.textContent = 'Add Section';
     nameLabel.htmlFor = 'name';
@@ -405,10 +407,10 @@ function showSectionForm() {
     nameInput.name = 'name';
     nameInput.required = true;
     nameInput.maxLength = '28';
-    formCancel.type = 'button';
-    formCancel.textContent = 'Cancel';
-    formSubmit.type = 'submit';
-    formSubmit.textContent = 'Add';
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel';
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Add';
 
     sectionForm.classList.add('section-form');
     formHeading.classList.add('form-heading');
@@ -416,22 +418,22 @@ function showSectionForm() {
     nameLabel.classList.add('name-label');
     nameInput.classList.add('name-input');
     buttonsContainer.classList.add('buttons-container');
-    formCancel.classList.add('form-cancel');
-    formSubmit.classList.add('form-submit');
+    cancelButton.classList.add('cancel-button');
+    submitButton.classList.add('submit-button');
 
     sectionForm.appendChild(formHeading);
     nameContainer.appendChild(nameLabel);
     nameContainer.appendChild(nameInput);
     sectionForm.appendChild(nameContainer);
-    buttonsContainer.appendChild(formCancel);
-    buttonsContainer.appendChild(formSubmit);
+    buttonsContainer.appendChild(cancelButton);
+    buttonsContainer.appendChild(submitButton);
     sectionForm.appendChild(buttonsContainer);
 
-    formCancel.addEventListener('click', () => {
+    cancelButton.addEventListener('click', () => {
         removeElement('.section-form');
     });
 
-    formSubmit.addEventListener('click', (event) => {
+    submitButton.addEventListener('click', (event) => {
         sectionSubmitClicked(event);
     })
 
@@ -467,4 +469,56 @@ function updateSections() {
 
     sectionsList.replaceChildren();
     showSections();
+}
+
+function deleteSectionConfirmation(section) {
+    const deleteConfirmation = document.createElement('div');
+    const deleteHeading = document.createElement('h1');
+    const deletePara = document.createElement('p');
+    const buttonsContainer = document.createElement('div');
+    const cancelButton = document.createElement('button');
+    const deleteButton = document.createElement('button');
+
+    deleteHeading.textContent = 'Delete Section?';
+    deletePara.textContent = 'Doing so will permanently delete the sections and all of its todos';
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel';
+    deleteButton.type = 'button';
+    deleteButton.textContent = 'Delete';
+
+    deleteConfirmation.classList.add('delete-confirmation');
+    deleteHeading.classList.add('delete-heading');
+    deletePara.classList.add('delete-para');
+    buttonsContainer.classList.add('buttons-container');
+    cancelButton.classList.add('cancel-button');
+    deleteButton.classList.add('delete-button');
+    
+    deleteConfirmation.appendChild(deleteHeading);
+    deleteConfirmation.appendChild(deletePara);
+    buttonsContainer.appendChild(cancelButton);
+    buttonsContainer.appendChild(deleteButton);
+    deleteConfirmation.appendChild(buttonsContainer);
+
+    cancelButton.addEventListener('click', () => {
+        removeElement('.delete-confirmation');
+    });
+
+    deleteButton.addEventListener('click', () => {
+        deleteSection(section);
+    });
+
+    document.body.appendChild(deleteConfirmation);
+}
+
+function deleteSection(deletedSection) {
+    const getSections = localStorage.getItem('sections');
+    const sections = JSON.parse(getSections);
+    
+    const newSections = sections.filter((section) => section !== deletedSection);
+    localStorage.setItem('sections', JSON.stringify(newSections));
+
+    // code to delete all its todos will be here
+
+    removeElement('.delete-confirmation');
+    updateSections();
 }
