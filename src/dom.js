@@ -292,6 +292,11 @@ function addOverlay(elementName) {
     document.body.appendChild(overlay);
 }
 
+function addOverlayBackground() {
+    const overlay = document.querySelector('.overlay');
+    overlay.classList.add('overlay-background');
+}
+
 function removeElement(elementName) {
     const element = document.querySelector(elementName);
     const overlay = document.querySelector('.overlay');
@@ -343,9 +348,9 @@ function getCurrentDate() {
 (function addSectionListener() {
     const sectionAdd = document.querySelector('.section-add');
     sectionAdd.addEventListener('click', () => {
-        //maybe this isn't needed...
-        document.body.appendChild(showSectionForm());
+        showSectionForm();
         addOverlay('.section-form');
+        addOverlayBackground();
     }); 
 })();
 
@@ -388,32 +393,39 @@ function showSectionForm() {
     const nameContainer = document.createElement('div');
     const nameLabel = document.createElement('label');
     const nameInput = document.createElement('input');
+    const buttonsContainer = document.createElement('div');
     const formCancel = document.createElement('button');
     const formSubmit = document.createElement('button');
 
     formHeading.textContent = 'Add Section';
     nameLabel.htmlFor = 'name';
-    nameLabel.textContent = 'Name (Max 32 characters)';
+    nameLabel.textContent = 'Name (Max 28 characters)';
     nameInput.type = 'text';
     nameInput.id = 'name';
     nameInput.name = 'name';
     nameInput.required = true;
-    nameInput.maxLength = '32';
+    nameInput.maxLength = '28';
     formCancel.type = 'button';
     formCancel.textContent = 'Cancel';
     formSubmit.type = 'submit';
     formSubmit.textContent = 'Add';
 
     sectionForm.classList.add('section-form');
+    formHeading.classList.add('form-heading');
     nameContainer.classList.add('name-container');
+    nameLabel.classList.add('name-label');
     nameInput.classList.add('name-input');
+    buttonsContainer.classList.add('buttons-container');
+    formCancel.classList.add('form-cancel');
+    formSubmit.classList.add('form-submit');
 
     sectionForm.appendChild(formHeading);
     nameContainer.appendChild(nameLabel);
     nameContainer.appendChild(nameInput);
     sectionForm.appendChild(nameContainer);
-    sectionForm.appendChild(formCancel);
-    sectionForm.appendChild(formSubmit);
+    buttonsContainer.appendChild(formCancel);
+    buttonsContainer.appendChild(formSubmit);
+    sectionForm.appendChild(buttonsContainer);
 
     formCancel.addEventListener('click', () => {
         removeElement('.section-form');
@@ -423,7 +435,7 @@ function showSectionForm() {
         sectionSubmitClicked(event);
     })
 
-    return sectionForm;
+    document.body.appendChild(sectionForm);
 }
 
 function sectionSubmitClicked(event) {
@@ -432,7 +444,7 @@ function sectionSubmitClicked(event) {
     const name = nameInput.value;
 
     if (!nameInput.checkValidity()) {
-        showErrorMessage('.name-container', 'Name must not be empty or exceed 32 characters!');
+        showErrorMessage('.name-container', 'Name must not be empty!');
     } else {
         addSection(name);
     }
