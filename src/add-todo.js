@@ -1,6 +1,6 @@
 import { removeElement, showDropdown, showErrorMessage, getCurrentDate } from "./dom.js";
 
-export function addTodo() {
+export function addTodoForm() {
     const main = document.querySelector('.main');
     const formContainer = document.createElement('div');
 
@@ -8,6 +8,9 @@ export function addTodo() {
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
+    const buttonsContainer = document.createElement('div');
+    const cancelButton = document.createElement('button');
+    const submitButton = document.createElement('button');
 
     //maybe section
     titleLabel.htmlFor = 'title';
@@ -23,8 +26,15 @@ export function addTodo() {
     descriptionInput.id = 'description';
     descriptionInput.name = 'title';
     descriptionInput.placeholder = 'Description';
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel';
+    submitButton.type = 'button';
+    submitButton.textContent = 'Add todo';
 
     formContainer.classList.add('form-container');
+    buttonsContainer.classList.add('buttons-container');
+    cancelButton.classList.add('cancel-button');
+    submitButton.classList.add('submit-button');
 
     formContainer.appendChild(titleLabel);
     formContainer.appendChild(titleInput);
@@ -33,6 +43,18 @@ export function addTodo() {
     formContainer.appendChild(dateSelect());
     formContainer.appendChild(timeSelect());
     formContainer.appendChild(prioritySelect());
+    formContainer.appendChild(sectionSelect());
+    buttonsContainer.appendChild(cancelButton);
+    buttonsContainer.appendChild(submitButton);
+    formContainer.appendChild(buttonsContainer);
+    
+    cancelButton.addEventListener('click', () => {
+        removeAddTodo();
+    });
+
+    submitButton.addEventListener('click', () => {
+        addTodo();
+    })
 
     main.appendChild(formContainer);
 }
@@ -280,5 +302,76 @@ function updateTimeButton() {
     timeButton.textContent = timeInput.value;
     timeButton.prepend(timeIcon);
 
-    removeElement('.time-dropdown');;
+    removeElement('.time-dropdown');
+}
+
+function sectionSelect() {
+    const getSections = localStorage.getItem('sections');
+    const sections = JSON.parse(getSections);
+
+    const sectionsContainer = document.createElement('div');
+    const sectionsButton = document.createElement('button');
+    const sectionsIcon = document.createElement('span');
+
+    sectionsButton.type = 'button';
+    sectionsButton.textContent = sections[0];
+    sectionsIcon.classList.add('material-symbols-outlined');
+    sectionsIcon.textContent = 'tag';
+
+    sectionsContainer.classList.add('sections-container');
+    sectionsButton.classList.add('current-section');
+    sectionsIcon.classList.add('sections-icon');
+
+    sectionsButton.prepend(sectionsIcon);
+    sectionsContainer.appendChild(sectionsButton);
+
+    sectionsButton.addEventListener('click', () => {
+        showDropdown('.sections-container', '.sections-dropdown', sectionsDropdown)
+    });
+
+    return sectionsContainer;
+}
+
+function sectionsDropdown() {
+    const getSections = localStorage.getItem('sections');
+    const sections = JSON.parse(getSections);
+
+    const sectionsDropdown = document.createElement('div');
+    const sectionsUl = document.createElement('ul');
+
+    sectionsDropdown.classList.add('sections-dropdown');
+
+    sections.forEach((section) => {
+        const list = document.createElement('li');
+        list.classList.add('section-list');
+        list.textContent = section;
+
+        list.addEventListener('click', () => {
+            updateSectionsButton(section);
+        });
+
+        sectionsUl.appendChild(list);
+    });
+
+    sectionsDropdown.appendChild(sectionsUl);
+    return sectionsDropdown;
+}
+
+function updateSectionsButton(section) {
+    const sectionsButton = document.querySelector('.current-section');
+    const sectionsIcon = document.querySelector('.sections-icon');
+
+    sectionsButton.textContent = section;
+    sectionsButton.prepend(sectionsIcon);
+
+    removeElement('.sections-dropdown');
+}
+
+function removeAddTodo() {
+    const formContainer = document.querySelector('.form-container');
+    formContainer.remove();
+}
+
+function addTodo() {
+    console.log('Add todo!');
 }

@@ -144,6 +144,7 @@ button:hover,
 .priority-dropdown,
 .date-dropdown,
 .time-dropdown,
+.sections-dropdown,
 .section-form,
 .delete-confirmation {
     position: relative;
