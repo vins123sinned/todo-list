@@ -1,4 +1,5 @@
 import { removeElement, showDropdown, showErrorMessage, getCurrentDate } from "./dom.js";
+import { parseISO, isSameYear, format } from "date-fns"; 
 
 export function addTodoForm() {
     const main = document.querySelector('.main');
@@ -91,12 +92,13 @@ function prioritySelect() {
     currentPriority.id = 'priority';
     currentPriority.name = 'priority';
     currentPriority.type = 'button';
+    currentPriority.dataset.priority = 'none';
     currentPriority.textContent = 'none';
     currentPriorityIcon.classList.add('material-symbols-outlined');
     currentPriorityIcon.textContent = 'do_not_disturb_on';
 
     priorityContainer.classList.add('priority-container');
-    currentPriority.classList.add('current-priority');
+    currentPriority.classList.add('priority-button');
     currentPriorityIcon.classList.add('current-priority-icon');
 
     currentPriority.prepend(currentPriorityIcon);
@@ -158,8 +160,10 @@ function priorityDropdown() {
 }
 
 function changeCurrentPriority(option) {
-    const currentPriority = document.querySelector('.current-priority');
+    const currentPriority = document.querySelector('.priority-button');
     const currentPriorityIcon = document.querySelector('.current-priority-icon');
+    
+    currentPriority.dataset.priority = option.priority;
     currentPriority.textContent = option.priority;
     currentPriorityIcon.textContent = option.icon;
 
@@ -170,6 +174,7 @@ function changeCurrentPriority(option) {
 
 function dateSelect() {
     const dateContainer = document.createElement('div');
+    const dateButtonContainer = document.createElement('div');
     const dateButton = document.createElement('button');
     const dateIcon = document.createElement('span');
 
@@ -181,11 +186,13 @@ function dateSelect() {
     dateIcon.textContent = 'edit_calendar';
 
     dateContainer.classList.add('date-container');
-    dateButton.classList.add('current-date');
+    dateButtonContainer.classList.add('date-button-container');
+    dateButton.classList.add('date-button');
     dateIcon.classList.add('date-icon');
 
     dateButton.prepend(dateIcon);
-    dateContainer.appendChild(dateButton);
+    dateButtonContainer.appendChild(dateButton);
+    dateContainer.appendChild(dateButtonContainer);
 
     dateButton.addEventListener('click', () => {
         showDropdown('.date-container', '.date-dropdown', dateDropdown);
@@ -242,19 +249,52 @@ function dateSubmitClicked() {
 }
 
 function updateDateButton() {
-    const dateButton = document.querySelector('.current-date');
+    const dateButtonContainer = document.querySelector('.date-button-container');
+    const dateButton = document.querySelector('.date-button');
     const dateInput = document.querySelector('.date-input');
     const dateIcon = document.querySelector('.date-icon');
 
-    //use date-fns later to format
-    dateButton.textContent = dateInput.value;
+    const closeIcon = document.createElement('span');
+    closeIcon.classList.add('material-symbols-outlined', 'datetime-icon');
+    closeIcon.textContent = 'close';
+
+    dateButton.dataset.date = dateInput.value;
+    dateButton.textContent = formatDate(dateInput.value);
     dateButton.prepend(dateIcon);
+    dateButtonContainer.appendChild(closeIcon);
+
+    closeIcon.addEventListener('click', () => {
+        resetDateButton();
+    });
 
     removeElement('.date-dropdown');
 }
 
+function formatDate(dateValue) {
+    const currentYear = (new Date()).toJSON().slice(0, 10);
+    const parsedDate = parseISO(dateValue);
+
+    if (isSameYear(currentYear, dateValue)) {
+        return format(parsedDate, 'MMMM dd');
+    } else {
+        return format(parsedDate, 'MMMM dd yyyy');
+    }
+}
+
+function resetDateButton() {
+    const dateButton = document.querySelector('.date-button');
+    const dateIcon = document.querySelector('.date-icon');
+    const closeIcon = document.querySelector('.datetime-icon');
+
+    dateButton.removeAttribute('data-date');
+    dateButton.textContent = 'Date';
+    dateButton.prepend(dateIcon);
+    closeIcon.remove();
+}
+
 function timeSelect() {
     const timeContainer = document.createElement('div');
+    const timeButtonContainer = document.createElement('div');
     const timeButton = document.createElement('button');
     const timeIcon = document.createElement('span');
 
@@ -266,11 +306,13 @@ function timeSelect() {
     timeIcon.textContent = 'schedule';
 
     timeContainer.classList.add('time-container');
-    timeButton.classList.add('current-time');
+    timeButtonContainer.classList.add('time-button-container');
+    timeButton.classList.add('time-button');
     timeIcon.classList.add('time-icon');
 
     timeButton.prepend(timeIcon);
-    timeContainer.appendChild(timeButton);
+    timeButtonContainer.appendChild(timeButton);
+    timeContainer.appendChild(timeButtonContainer);
 
     timeButton.addEventListener('click', () => {
         showDropdown('.time-container', '.time-dropdown', timeDropdown);
@@ -323,15 +365,50 @@ function timeSubmitClicked() {
 }
 
 function updateTimeButton() {
-    const timeButton = document.querySelector('.current-time');
+    const timeButtonContainer = document.querySelector('.time-button-container');
+    const timeButton = document.querySelector('.time-button');
     const timeInput = document.querySelector('.time-input');
     const timeIcon = document.querySelector('.time-icon');
 
-    //use date-fns later to format
-    timeButton.textContent = timeInput.value;
+    const closeIcon = document.createElement('span');
+    closeIcon.classList.add('material-symbols-outlined', 'datetime-icon');
+    closeIcon.textContent = 'close';
+
+    timeButton.dataset.time = timeInput.value;
+    timeButton.textContent = formatTime(timeInput.value);
     timeButton.prepend(timeIcon);
+    timeButtonContainer.appendChild(closeIcon);
+
+    closeIcon.addEventListener('click', () => {
+        resetTimeButton();
+    });
 
     removeElement('.time-dropdown');
+}
+
+function resetTimeButton() {
+    const timeButton = document.querySelector('.time-button');
+    const timeIcon = document.querySelector('.time-icon');
+    const closeIcon = document.querySelector('.datetime-icon');
+
+    timeButton.removeAttribute('data-time');
+    timeButton.textContent = 'Time';
+    timeButton.prepend(timeIcon);
+    closeIcon.remove();
+}
+
+function formatTime(timeValue) {
+    // I don't think date-fns has this built in
+    // so i'll do it myself
+    const hours = timeValue.slice(0, 2);
+
+    if (hours > 12) {
+        const newHours = parseInt(hours) - 12;
+        return `${newHours}${timeValue.slice(2)} PM`;
+    } else {
+        if (hours === '00') return `12${timeValue.slice(2)} AM`;
+        return `${timeValue} AM`;
+    }
 }
 
 function sectionSelect() {
@@ -345,12 +422,13 @@ function sectionSelect() {
     sectionButton.id = 'section';
     sectionButton.name = 'section';
     sectionButton.type = 'button';
+    sectionButton.dataset.section = sections[0];
     sectionButton.textContent = sections[0];
     sectionIcon.classList.add('material-symbols-outlined');
     sectionIcon.textContent = 'tag';
 
     sectionContainer.classList.add('section-container');
-    sectionButton.classList.add('current-section');
+    sectionButton.classList.add('section-button');
     sectionIcon.classList.add('section-icon');
 
     sectionButton.prepend(sectionIcon);
@@ -389,9 +467,10 @@ function sectionsDropdown() {
 }
 
 function updateSectionButton(section) {
-    const sectionButton = document.querySelector('.current-section');
+    const sectionButton = document.querySelector('.section-button');
     const sectionIcon = document.querySelector('.section-icon');
 
+    sectionButton.dataset.section = section;
     sectionButton.textContent = section;
     sectionButton.prepend(sectionIcon);
 
@@ -405,6 +484,12 @@ function removeAddTodo() {
 
 function addTodo(event) {
     event.preventDefault(); 
+    const titleInput = document.querySelector('.title-input');
+    const descriptionInput = document.querySelector('.description-input');
+    const dateButton = document.querySelector('.date-button');
+    const timeButton = document.querySelector('.time-button');
+    const priorityButton = document.querySelector('.priority-button');
+    const sectionButton = document.querySelector('.section-button');
 }
 
 function titleInputChanged(event) {
