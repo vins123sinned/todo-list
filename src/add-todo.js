@@ -38,11 +38,11 @@ export function addTodoForm() {
     priorityLabel.textContent = 'Priority';
     sectionLabel.htmlFor = 'section';
     sectionLabel.textContent = "Section";
-
     cancelButton.type = 'button';
     cancelButton.textContent = 'Cancel';
     submitButton.type = 'submit';
     submitButton.textContent = 'Add todo';
+    submitButton.disabled = true;
 
     titleInput.classList.add('title-input');
     descriptionInput.classList.add('description-input');
@@ -66,6 +66,10 @@ export function addTodoForm() {
     buttonsContainer.appendChild(cancelButton);
     buttonsContainer.appendChild(submitButton);
     formContainer.appendChild(buttonsContainer);
+
+    titleInput.addEventListener('input', (event) => {
+        titleInputChanged(event);
+    });
     
     cancelButton.addEventListener('click', () => {
         removeAddTodo();
@@ -401,4 +405,15 @@ function removeAddTodo() {
 
 function addTodo(event) {
     event.preventDefault(); 
+}
+
+function titleInputChanged(event) {
+    const submitButton = document.querySelector('.submit-button');
+    const titleValue = event.target.value;
+
+    if (titleValue.length > 0) {
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
 }

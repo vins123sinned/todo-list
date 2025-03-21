@@ -275,8 +275,17 @@ button:hover,
     color: #fff;
 }
 
+.submit-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .submit-button:hover {
     background-color: #02669c;
+}
+
+.submit-button:disabled:hover {
+    background-color: #0077b6;
 }
 
 /* delete confirmation styling */
