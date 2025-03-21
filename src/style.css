@@ -16,7 +16,7 @@ body,
 ul,
 .profile-heading,
 .image-attribution,
-.sections-heading {
+.section-heading {
     padding: 0;
     margin: 0;
 }
@@ -68,7 +68,7 @@ button:hover,
 }
 
 .sidebar-option,
-.sections-heading-container,
+.section-heading-container,
 .section-option {
     display: flex;
     align-items: center;
@@ -78,7 +78,7 @@ button:hover,
 
 .sidebar-option:hover,
 .section-option:hover,
-.sections-heading-container:hover {
+.section-heading-container:hover {
     cursor: pointer;
     color: #0077b6;
     background-color: #dbf1f5;
@@ -106,24 +106,24 @@ button:hover,
     color: #0077b6;
 }
 
-/* sections styling */
+/* section styling */
 .section-add,
 .section-delete {
     visibility: hidden;
     margin: 0;
 }
 
-.sections-heading-container,
+.section-heading-container,
 .section-option {
     justify-content: space-between;
 }
 
-.sections-heading-container:hover .section-add,
+.section-heading-container:hover .section-add,
 .section-option:hover .section-delete  {
     visibility: visible;
 }
 
-.sections-heading {
+.section-heading {
     font-size: 1.25rem;
     color: #807d7d;
 }
@@ -144,7 +144,7 @@ button:hover,
 .priority-dropdown,
 .date-dropdown,
 .time-dropdown,
-.sections-dropdown,
+.section-dropdown,
 .section-form,
 .delete-confirmation {
     position: relative;

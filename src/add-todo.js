@@ -8,6 +8,10 @@ export function addTodoForm() {
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
+    const dateLabel = document.createElement('label');
+    const timeLabel = document.createElement('label');
+    const priorityLabel = document.createElement('label');
+    const sectionLabel = document.createElement('label');
     const buttonsContainer = document.createElement('div');
     const cancelButton = document.createElement('button');
     const submitButton = document.createElement('button');
@@ -26,11 +30,22 @@ export function addTodoForm() {
     descriptionInput.id = 'description';
     descriptionInput.name = 'title';
     descriptionInput.placeholder = 'Description';
+    dateLabel.htmlFor = 'date';
+    dateLabel.textContent = 'Date';
+    timeLabel.htmlFor = 'time';
+    timeLabel.textContent = 'Time';
+    priorityLabel.htmlFor = 'priority';
+    priorityLabel.textContent = 'Priority';
+    sectionLabel.htmlFor = 'section';
+    sectionLabel.textContent = "Section";
+
     cancelButton.type = 'button';
     cancelButton.textContent = 'Cancel';
-    submitButton.type = 'button';
+    submitButton.type = 'submit';
     submitButton.textContent = 'Add todo';
 
+    titleInput.classList.add('title-input');
+    descriptionInput.classList.add('description-input');
     formContainer.classList.add('form-container');
     buttonsContainer.classList.add('buttons-container');
     cancelButton.classList.add('cancel-button');
@@ -40,9 +55,13 @@ export function addTodoForm() {
     formContainer.appendChild(titleInput);
     formContainer.appendChild(descriptionLabel);
     formContainer.appendChild(descriptionInput);
+    formContainer.appendChild(dateLabel);
     formContainer.appendChild(dateSelect());
+    formContainer.appendChild(timeLabel);
     formContainer.appendChild(timeSelect());
+    formContainer.appendChild(priorityLabel);
     formContainer.appendChild(prioritySelect());
+    formContainer.appendChild(sectionLabel);
     formContainer.appendChild(sectionSelect());
     buttonsContainer.appendChild(cancelButton);
     buttonsContainer.appendChild(submitButton);
@@ -52,8 +71,8 @@ export function addTodoForm() {
         removeAddTodo();
     });
 
-    submitButton.addEventListener('click', () => {
-        addTodo();
+    submitButton.addEventListener('click', (event) => {
+        addTodo(event);
     })
 
     main.appendChild(formContainer);
@@ -65,6 +84,8 @@ function prioritySelect() {
     const currentPriority = document.createElement('button');
     const currentPriorityIcon = document.createElement('span');
 
+    currentPriority.id = 'priority';
+    currentPriority.name = 'priority';
     currentPriority.type = 'button';
     currentPriority.textContent = 'none';
     currentPriorityIcon.classList.add('material-symbols-outlined');
@@ -148,6 +169,8 @@ function dateSelect() {
     const dateButton = document.createElement('button');
     const dateIcon = document.createElement('span');
 
+    dateButton.id = 'date';
+    dateButton.name = 'date';
     dateButton.type = 'button';
     dateButton.textContent = 'Date';
     dateIcon.classList.add('material-symbols-outlined');
@@ -231,6 +254,8 @@ function timeSelect() {
     const timeButton = document.createElement('button');
     const timeIcon = document.createElement('span');
 
+    timeButton.id = 'time';
+    timeButton.name = 'time';
     timeButton.type = 'button';
     timeButton.textContent = 'Time';
     timeIcon.classList.add('material-symbols-outlined');
@@ -309,37 +334,39 @@ function sectionSelect() {
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
 
-    const sectionsContainer = document.createElement('div');
-    const sectionsButton = document.createElement('button');
-    const sectionsIcon = document.createElement('span');
+    const sectionContainer = document.createElement('div');
+    const sectionButton = document.createElement('button');
+    const sectionIcon = document.createElement('span');
 
-    sectionsButton.type = 'button';
-    sectionsButton.textContent = sections[0];
-    sectionsIcon.classList.add('material-symbols-outlined');
-    sectionsIcon.textContent = 'tag';
+    sectionButton.id = 'section';
+    sectionButton.name = 'section';
+    sectionButton.type = 'button';
+    sectionButton.textContent = sections[0];
+    sectionIcon.classList.add('material-symbols-outlined');
+    sectionIcon.textContent = 'tag';
 
-    sectionsContainer.classList.add('sections-container');
-    sectionsButton.classList.add('current-section');
-    sectionsIcon.classList.add('sections-icon');
+    sectionContainer.classList.add('section-container');
+    sectionButton.classList.add('current-section');
+    sectionIcon.classList.add('section-icon');
 
-    sectionsButton.prepend(sectionsIcon);
-    sectionsContainer.appendChild(sectionsButton);
+    sectionButton.prepend(sectionIcon);
+    sectionContainer.appendChild(sectionButton);
 
-    sectionsButton.addEventListener('click', () => {
-        showDropdown('.sections-container', '.sections-dropdown', sectionsDropdown)
+    sectionButton.addEventListener('click', () => {
+        showDropdown('.section-container', '.section-dropdown', sectionsDropdown)
     });
 
-    return sectionsContainer;
+    return sectionContainer;
 }
 
 function sectionsDropdown() {
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
 
-    const sectionsDropdown = document.createElement('div');
-    const sectionsUl = document.createElement('ul');
+    const sectionDropdown = document.createElement('div');
+    const sectionUl = document.createElement('ul');
 
-    sectionsDropdown.classList.add('sections-dropdown');
+    sectionDropdown.classList.add('section-dropdown');
 
     sections.forEach((section) => {
         const list = document.createElement('li');
@@ -347,24 +374,24 @@ function sectionsDropdown() {
         list.textContent = section;
 
         list.addEventListener('click', () => {
-            updateSectionsButton(section);
+            updateSectionButton(section);
         });
 
-        sectionsUl.appendChild(list);
+        sectionUl.appendChild(list);
     });
 
-    sectionsDropdown.appendChild(sectionsUl);
-    return sectionsDropdown;
+    sectionDropdown.appendChild(sectionUl);
+    return sectionDropdown;
 }
 
-function updateSectionsButton(section) {
-    const sectionsButton = document.querySelector('.current-section');
-    const sectionsIcon = document.querySelector('.sections-icon');
+function updateSectionButton(section) {
+    const sectionButton = document.querySelector('.current-section');
+    const sectionIcon = document.querySelector('.section-icon');
 
-    sectionsButton.textContent = section;
-    sectionsButton.prepend(sectionsIcon);
+    sectionButton.textContent = section;
+    sectionButton.prepend(sectionIcon);
 
-    removeElement('.sections-dropdown');
+    removeElement('.section-dropdown');
 }
 
 function removeAddTodo() {
@@ -372,6 +399,6 @@ function removeAddTodo() {
     formContainer.remove();
 }
 
-function addTodo() {
-    console.log('Add todo!');
+function addTodo(event) {
+    event.preventDefault(); 
 }
