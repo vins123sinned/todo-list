@@ -1,5 +1,6 @@
-import { removeElement, showDropdown, showErrorMessage, getCurrentDate } from "./dom.js";
 import { parseISO, isSameYear, format } from "date-fns"; 
+import { removeElement, showDropdown, showErrorMessage, getCurrentDate } from "./dom.js";
+import { pushNewTodo } from "./todo.js";
 
 export function addTodoForm() {
     const main = document.querySelector('.main');
@@ -484,12 +485,15 @@ function removeAddTodo() {
 
 function addTodo(event) {
     event.preventDefault(); 
-    const titleInput = document.querySelector('.title-input');
-    const descriptionInput = document.querySelector('.description-input');
-    const dateButton = document.querySelector('.date-button');
-    const timeButton = document.querySelector('.time-button');
-    const priorityButton = document.querySelector('.priority-button');
-    const sectionButton = document.querySelector('.section-button');
+
+    const title = document.querySelector('.title-input').value;
+    const description = document.querySelector('.description-input').value;
+    const date = document.querySelector('.date-button').dataset.date ?? '';
+    const time = document.querySelector('.time-button').dataset.time ?? '';
+    const priority = document.querySelector('.priority-button').dataset.priority;
+    const section = document.querySelector('.section-button').dataset.section;
+
+    pushNewTodo(title, description, date, time, priority, section);
 }
 
 function titleInputChanged(event) {

@@ -1,5 +1,5 @@
 import "./style.css";
-import { Todo } from "./todo.js";
+import { Todo, todos } from "./todo.js";
 import { addTodoForm } from "./add-todo.js";
 import { showSections } from "./section.js";
 
