@@ -10,11 +10,13 @@ export function addTodoForm() {
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
     const descriptionInput = document.createElement('input');
+    const buttonsSelectContainer = document.createElement('div');
     const dateLabel = document.createElement('label');
     const timeLabel = document.createElement('label');
     const priorityLabel = document.createElement('label');
     const sectionLabel = document.createElement('label');
     const buttonsContainer = document.createElement('div');
+    const cancelSubmitContainer = document.createElement('div');
     const cancelButton = document.createElement('button');
     const submitButton = document.createElement('button');
 
@@ -49,6 +51,7 @@ export function addTodoForm() {
     titleInput.classList.add('title-input');
     descriptionInput.classList.add('description-input');
     formContainer.classList.add('form-container');
+    buttonsSelectContainer.classList.add('buttons-select-container');
     buttonsContainer.classList.add('buttons-container');
     cancelButton.classList.add('cancel-button');
     submitButton.classList.add('submit-button');
@@ -57,16 +60,18 @@ export function addTodoForm() {
     formContainer.appendChild(titleInput);
     formContainer.appendChild(descriptionLabel);
     formContainer.appendChild(descriptionInput);
-    formContainer.appendChild(dateLabel);
-    formContainer.appendChild(dateSelect());
-    formContainer.appendChild(timeLabel);
-    formContainer.appendChild(timeSelect());
-    formContainer.appendChild(priorityLabel);
-    formContainer.appendChild(prioritySelect());
-    formContainer.appendChild(sectionLabel);
-    formContainer.appendChild(sectionSelect());
-    buttonsContainer.appendChild(cancelButton);
-    buttonsContainer.appendChild(submitButton);
+    buttonsSelectContainer.appendChild(dateLabel);
+    buttonsSelectContainer.appendChild(dateSelect());
+    buttonsSelectContainer.appendChild(timeLabel);
+    buttonsSelectContainer.appendChild(timeSelect());
+    buttonsSelectContainer.appendChild(priorityLabel);
+    buttonsSelectContainer.appendChild(prioritySelect());
+    formContainer.appendChild(buttonsSelectContainer);
+    buttonsContainer.appendChild(sectionLabel);
+    buttonsContainer.appendChild(sectionSelect());
+    cancelSubmitContainer.appendChild(cancelButton);
+    cancelSubmitContainer.appendChild(submitButton);
+    buttonsContainer.appendChild(cancelSubmitContainer);
     formContainer.appendChild(buttonsContainer);
 
     titleInput.addEventListener('input', (event) => {
@@ -87,6 +92,7 @@ export function addTodoForm() {
 function prioritySelect() {
     // creates priority button on addTodo form
     const priorityContainer = document.createElement('div');
+    const priorityButtonContainer = document.createElement('div');
     const currentPriority = document.createElement('button');
     const currentPriorityIcon = document.createElement('span');
 
@@ -99,11 +105,13 @@ function prioritySelect() {
     currentPriorityIcon.textContent = 'do_not_disturb_on';
 
     priorityContainer.classList.add('priority-container');
+    priorityButtonContainer.classList.add('date-button-container');
     currentPriority.classList.add('priority-button');
     currentPriorityIcon.classList.add('current-priority-icon');
 
     currentPriority.prepend(currentPriorityIcon);
-    priorityContainer.appendChild(currentPriority);
+    priorityButtonContainer.appendChild(currentPriority);
+    priorityContainer.appendChild(priorityButtonContainer);
 
     currentPriority.addEventListener('click', () => {
         showDropdown('.priority-container', '.priority-dropdown', priorityDropdown);
@@ -207,6 +215,7 @@ function dateDropdown() {
 
     const dateDropdown = document.createElement('div');
     const dateInput = document.createElement('input');
+    const dropdownButtonsContainer = document.createElement('div');
     const dateCancel = document.createElement('button');
     const dateSubmit = document.createElement('button');
 
@@ -223,10 +232,14 @@ function dateDropdown() {
 
     dateDropdown.classList.add('date-dropdown');
     dateInput.classList.add('date-input');
+    dropdownButtonsContainer.classList.add('dropdown-buttons-container');
+    dateCancel.classList.add('dropdown-cancel');
+    dateSubmit.classList.add('dropdown-submit');
 
     dateDropdown.appendChild(dateInput);
-    dateDropdown.appendChild(dateCancel);
-    dateDropdown.appendChild(dateSubmit);
+    dropdownButtonsContainer.appendChild(dateCancel);
+    dropdownButtonsContainer.appendChild(dateSubmit);
+    dateDropdown.appendChild(dropdownButtonsContainer);
 
     dateCancel.addEventListener('click', () => {
         removeElement('.date-dropdown');
@@ -262,7 +275,7 @@ function updateDateButton() {
     dateButton.dataset.date = dateInput.value;
     dateButton.textContent = formatDate(dateInput.value);
     dateButton.prepend(dateIcon);
-    dateButtonContainer.appendChild(closeIcon);
+    if (!document.querySelector('.datetime-icon')) dateButtonContainer.appendChild(closeIcon);
 
     closeIcon.addEventListener('click', () => {
         resetDateButton();
@@ -325,6 +338,7 @@ function timeSelect() {
 function timeDropdown() {
     const timeDropdown = document.createElement('div');
     const timeInput = document.createElement('input');
+    const dropdownButtonsContainer = document.createElement('div');
     const timeCancel = document.createElement('button');
     const timeSubmit = document.createElement('button');
 
@@ -339,10 +353,14 @@ function timeDropdown() {
 
     timeDropdown.classList.add('time-dropdown');
     timeInput.classList.add('time-input');
+    dropdownButtonsContainer.classList.add('dropdown-buttons-container');
+    timeCancel.classList.add('dropdown-cancel');
+    timeSubmit.classList.add('dropdown-submit');
 
     timeDropdown.appendChild(timeInput);
-    timeDropdown.appendChild(timeCancel);
-    timeDropdown.appendChild(timeSubmit);
+    dropdownButtonsContainer.appendChild(timeCancel);
+    dropdownButtonsContainer.appendChild(timeSubmit);
+    timeDropdown.appendChild(dropdownButtonsContainer);
 
     timeCancel.addEventListener('click', () => {
         removeElement('.time-dropdown');
@@ -378,7 +396,7 @@ function updateTimeButton() {
     timeButton.dataset.time = timeInput.value;
     timeButton.textContent = formatTime(timeInput.value);
     timeButton.prepend(timeIcon);
-    timeButtonContainer.appendChild(closeIcon);
+    if (!document.querySelector('.datetime-icon')) timeButtonContainer.appendChild(closeIcon);
 
     closeIcon.addEventListener('click', () => {
         resetTimeButton();
@@ -453,13 +471,18 @@ function sectionsDropdown() {
 
     sections.forEach((section) => {
         const list = document.createElement('li');
+        const listIcon = document.createElement('span');
+
         list.classList.add('section-list');
         list.textContent = section;
+        listIcon.classList.add('material-symbols-outlined');
+        listIcon.textContent = 'tag';
 
         list.addEventListener('click', () => {
             updateSectionButton(section);
         });
 
+        list.prepend(listIcon);
         sectionUl.appendChild(list);
     });
 

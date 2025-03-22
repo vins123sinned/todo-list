@@ -37,8 +37,10 @@ button:hover,
 /* sidebar styling */
 
 .sidebar {
-    width: clamp(300px, 30%, 400px);
+    width: clamp(300px, 50vw, 400px);
     padding: 1.75rem;
+    /* delete when main finished */
+    background-color: #9c9797;
 }
 
 .sidebar-options-container {
@@ -152,10 +154,219 @@ button:hover,
     border: 1px solid black;
 }
 
+.form-container {
+    border: 1px solid #ddd8d8;
+    border-radius: 15px;
+    width: 100%;
+}
+
+.form-container label {
+    /* Taken from stackOverflow which helps hide the label 
+      element but keep it accessible for screen readers */
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute !important;
+    height: 1px; 
+    width: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.title-input, 
+.description-input {
+    width: 100%;
+    border: none;
+}
+
+.title-input:focus,
+.description-input:focus {
+    outline: none;
+}
+
+.form-container:has(.title-input:focus),
+.form-container:has(.description-input:focus) {
+    border-color: #b3acac;
+}
+
+.title-input::placeholder,
+.description-input::placeholder {
+    color: #9c9797;
+}
+
+.title-input,
+.description-input,
+.buttons-select-container {
+    padding: 0 0.75rem;
+}
+
+.title-input {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01rem;
+    margin: 1rem 0 0.4rem 0;
+}
+
+.description-input {
+    font-size: 0.9rem;
+}
+
+.buttons-select-container {
+    display: flex;
+    border-bottom: 1px solid #ddd8d8;
+    padding: 0.75rem;
+}
+
+.date-button-container,
+.time-button-container,
+.priority-button-container {
+    color: #666666;
+    background-color: #fff;
+    border: 1px solid #ddd8d8;
+    border-radius: 5px;
+    padding: 0.1rem 0.5rem;
+    margin-right: 0.75rem;
+}
+
+.date-button-container,
+.time-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.date-button,
+.time-button,
+.priority-button,
+.section-button {
+    display: flex;
+    align-items: center;
+    color: #666666;
+    background-color: transparent;
+    border: none;
+}
+
+.buttons-select-container .material-symbols-outlined,
+.section-icon {
+    font-size: 1.5rem;
+    margin-right: 0.25rem;
+}
+
+.date-button-container:hover,
+.time-button-container:hover,
+.priority-button-container:hover,
+.section-button:hover {
+    color: #666666;
+    background-color: #faf8f8;
+}
+
+.date-container,
+.time-container,
+.priority-container,
+.section-container {
+    position: relative;
+}
+
+.date-input,
+.time-input {
+    color: #5e5c5c;
+    border: 1px solid #e2e0e0;
+    border-radius: 5px;
+    padding: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.date-dropdown,
+.time-dropdown,
+.priority-dropdown,
+.section-dropdown {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #e2e0e0;
+    border-radius: 15px;
+    box-shadow: 0px 0px 3px 0px rgba(250,248,248,1);
+    text-align: center;
+}
+
+.date-dropdown,
+.time-dropdown {
+    left: -3.5rem;
+    width: 12rem;
+    height: 7rem;
+    padding: 1rem;
+}
+
+.priority-dropdown {
+    left: -2rem;
+    width: 10rem;
+    overflow: hidden;
+}
+
+.section-dropdown {
+    left: -6rem;
+    width: 20rem;
+    text-align: left;
+    overflow: hidden;
+}
+
+.section-list {
+    font-size: 0.9rem;
+}
+
+.section-list .material-symbols-outlined {
+    font-size: 1.5rem;
+}
+
+.priority-option,
+.section-list {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.priority-option:hover,
+.section-list:hover {
+    cursor: pointer;
+    background-color: #faf8f8;
+}
+
+.dropdown-buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dropdown-cancel,
+.dropdown-submit {
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+}
+
+.dropdown-cancel {
+    background-color: #f5f5f5;
+}
+
+.dropdown-submit {
+    background-color: #0077b6;
+    color: #fff;
+}
+
+.section-button {
+    border: none;
+}
+
 .overlay {
     position: absolute;
     width: 100%;
     height: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
 }
 
 .overlay-background {
@@ -163,14 +374,18 @@ button:hover,
 }
 
 .main {
-    padding: 5rem;
+    width: clamp(50rem, 80%, 60rem);
+    padding: 3rem;
+    margin: 0 auto;
 }
 
 .datetime-icon {
-    font-size: 1rem;
+    font-size: 1rem !important;
+    margin: 0 !important;
 }
 
 .datetime-icon:hover {
+    color: #000;
 }
 
 /* section form styling */
@@ -246,13 +461,9 @@ button:hover,
 }
 
 .error-message {
-    position: absolute;
-    top: 150px;
+    font-size: 0.75rem;
     color: #d90429;
-}
-
-.buttons-container {
-    margin: 0 1rem 1rem auto;
+    margin: 0;
 }
 
 .cancel-button,
@@ -266,13 +477,15 @@ button:hover,
     padding: 0.5rem;
 }
 
-.cancel-button {
+.cancel-button,
+.dropdown-cancel {
     margin-right: 1rem;
     background-color: #f5f5f5;
     color: #383535;
 }
 
-.cancel-button:hover {
+.cancel-button:hover,
+.dropdown-cancel:hover {
     background-color: #e2e0e0;
     color: #000;
 }
@@ -280,6 +493,7 @@ button:hover,
 .submit-button {
     background-color: #0077b6;
     color: #fff;
+    width: 6rem;
 }
 
 .submit-button:disabled {
@@ -287,7 +501,8 @@ button:hover,
     cursor: not-allowed;
 }
 
-.submit-button:hover {
+.submit-button:hover,
+.dropdown-submit:hover {
     background-color: #02669c;
 }
 
