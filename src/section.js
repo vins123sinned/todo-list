@@ -208,7 +208,6 @@ export function showSectionPage(section) {
     const todoUl = document.createElement('ul');
     
     sectionHeading.textContent = section;
-
     sectionHeading.classList.add('section-page-heading');
     
     const sectionTodos = todos.filter((todo) => {
@@ -217,13 +216,12 @@ export function showSectionPage(section) {
     
     sectionTodos.forEach((todo) => {
         const list = document.createElement('li');
-        const checkbox = document.createElement('input');
+        const checkbox = document.createElement('span');
         const informationContainer = document.createElement('div');
         const title = document.createElement('p');
         const description = document.createElement('p');
         const due = document.createElement('div');
 
-        checkbox.type = 'checkbox';
         title.textContent = todo.title;
         description.textContent = todo.description;
 
@@ -260,7 +258,7 @@ export function showSectionPage(section) {
 
         list.appendChild(informationContainer);
         todoUl.appendChild(list);
-    })
+    });
 
     main.append(sectionHeading);
     main.appendChild(todoUl);

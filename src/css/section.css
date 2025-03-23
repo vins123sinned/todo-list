@@ -1,3 +1,5 @@
+/* section sidebar styling */
+
 .section-add,
 .section-delete {
     visibility: hidden;
@@ -30,3 +32,73 @@
     display: flex;
     align-items: center;
 }
+
+/* section page styling */
+
+.todo-list {
+    display: flex;
+    border-top: 1px solid #e2e0e0;
+    padding: 0.5rem 0;
+}
+
+.todo-list:first-child {
+    border: none;
+    padding-top: 0;
+}
+
+.todo-list:last-child {
+    border-bottom: 1px solid #e2e0e0;;
+}
+
+.todo-checkbox {
+    position: relative;
+    border: 1px solid #b1adad;
+    border-radius: 50%;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+}
+
+.todo-checkbox::after {
+    position: absolute;
+    left: 3px;
+    top: -2px;
+    content: "✓";
+    color: #b1adad;
+    display: none;
+}
+
+.todo-checkbox:hover {
+    cursor: pointer;
+}
+
+.todo-checkbox:hover::after {
+    display: block;
+}
+
+.todo-title,
+.todo-description {
+    margin-bottom: 0.25rem;
+}
+
+.todo-description {
+    color: #807d7d;
+}
+
+.todo-description,
+.todo-due {
+    font-size: 0.8rem;
+}
+
+.todo-due {
+    display: flex;
+    align-items: center;
+    color: #0077b6;
+}
+
+.due-icon {
+    font-size: 1rem;
+    color: #0077b6;
+    margin-right: 0.1rem;
+}
+
