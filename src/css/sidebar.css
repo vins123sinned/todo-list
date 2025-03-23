@@ -1,0 +1,71 @@
+.sidebar {
+    width: clamp(300px, 50vw, 400px);
+    padding: 1.75rem;
+    /* delete when main finished */
+    background-color: #9c9797;
+}
+
+.sidebar-options-container {
+    margin-bottom: 1rem;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-image {
+    border-radius: 50%;
+    height: 2.5rem;
+    margin-right: 1rem;
+}
+
+.profile-heading {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.image-attribution {
+    font-size: 0.6rem;
+    color: #5e5c5c;;
+}
+
+.sidebar-option,
+.section-heading-container,
+.section-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.sidebar-option:hover,
+.section-option:hover,
+.section-heading-container:hover {
+    cursor: pointer;
+    color: #0077b6;
+    background-color: #dbf1f5;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 
+    'wght' 200;
+    font-size: 1.75rem;
+    color: #666666;
+    margin-right: 0.5rem;
+}
+
+.sidebar-option:hover .material-symbols-outlined,
+.section-option:hover .material-symbols-outlined {
+    font-variation-settings: 
+    'FILL' 1,
+    'wght' 200;
+    color: #0077b6;
+}
+
+.add-circle {
+    font-variation-settings: 
+    'FILL' 1;
+    color: #0077b6;
+}

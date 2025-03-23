@@ -1,3 +1,5 @@
+import "./css/section.css";
+import "./css/section-form.css";
 import { addOverlay, addOverlayBackground, showErrorMessage, removeElement, formatDate, formatTime } from "./dom";
 import { todos } from "./todo";
 

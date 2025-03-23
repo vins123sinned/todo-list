@@ -1,0 +1,32 @@
+.section-add,
+.section-delete {
+    visibility: hidden;
+    margin: 0;
+}
+
+.section-heading-container,
+.section-option {
+    justify-content: space-between;
+}
+
+.section-heading-container:hover .section-add,
+.section-option:hover .section-delete  {
+    visibility: visible;
+}
+
+.section-heading {
+    font-size: 1.25rem;
+    color: #807d7d;
+}
+
+.section-option:hover .section-delete {
+    font-variation-settings: 
+    'FILL' 0,
+    'wght' 200;
+    color: #666666;
+}
+
+.list-right {
+    display: flex;
+    align-items: center;
+}

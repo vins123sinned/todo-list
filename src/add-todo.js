@@ -1,3 +1,4 @@
+import "./css/add-todo.css";
 import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime } from "./dom.js";
 import { pushNewTodo } from "./todo.js";
 
@@ -106,7 +107,7 @@ function prioritySelect() {
     priorityContainer.classList.add('priority-container');
     priorityButtonContainer.classList.add('date-button-container');
     currentPriority.classList.add('priority-button');
-    currentPriorityIcon.classList.add('current-priority-icon');
+    currentPriorityIcon.classList.add('priority-icon');
 
     currentPriority.prepend(currentPriorityIcon);
     priorityButtonContainer.appendChild(currentPriority);
@@ -169,7 +170,7 @@ function priorityDropdown() {
 
 function changeCurrentPriority(option) {
     const currentPriority = document.querySelector('.priority-button');
-    const currentPriorityIcon = document.querySelector('.current-priority-icon');
+    const currentPriorityIcon = document.querySelector('.priority-icon');
     
     currentPriority.dataset.priority = option.priority;
     currentPriority.textContent = option.priority;

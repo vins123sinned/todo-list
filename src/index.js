@@ -1,4 +1,5 @@
-import "./style.css";
+import "./css/style.css";
+import "./css/sidebar.css";
 import { Todo, populateTodos } from "./todo.js";
 import { addTodoForm } from "./add-todo.js";
 import { showSections, showSectionPage } from "./section.js";

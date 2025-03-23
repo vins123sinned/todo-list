@@ -1,0 +1,82 @@
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display: flex;
+}
+
+a {
+    color: #5e5c5c;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+/* grouped css */
+
+.priority-dropdown,
+.date-dropdown,
+.time-dropdown,
+.section-dropdown,
+.section-form,
+.delete-confirmation {
+    position: relative;
+    z-index: 999;
+    border: 1px solid black;
+}
+
+body,
+ul,
+.profile-heading,
+.image-attribution,
+.section-heading {
+    padding: 0;
+    margin: 0;
+}
+
+button:hover,
+.material-symbols-outlined:hover {
+    cursor: pointer;
+}
+
+.main {
+    width: clamp(50rem, 80%, 60rem);
+    padding: 3rem;
+    margin: 0 auto;
+}
+
+.overlay-background {
+    background-color: rgba(34, 34, 34, 0.6);
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* CSS used across different files */
+
+.cancel-button,
+.dropdown-cancel {
+    margin-right: 1rem;
+    background-color: #f5f5f5;
+    color: #383535;
+}
+
+.cancel-button:hover,
+.dropdown-cancel:hover {
+    background-color: #e4e0e0;
+}
+
+.submit-button:hover,
+.dropdown-submit:hover {
+    background-color: #02669c;
+}
