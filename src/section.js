@@ -1,7 +1,7 @@
 import "./css/section.css";
 import "./css/section-form.css";
 import { addOverlay, addOverlayBackground, showErrorMessage, removeElement, formatDate, formatTime } from "./dom";
-import { todos } from "./todo";
+import { todos, updateTodo } from "./todo";
 import { addTodoForm } from "./add-todo";
 
 export function showSections() {
@@ -234,11 +234,17 @@ export function showSectionPage(section) {
         title.textContent = todo.title;
         description.textContent = todo.description;
 
-        checkbox.classList.add('todo-checkbox');
+        checkbox.classList.add('todo-checkbox', `checkbox-${todo.priority}`);
         list.classList.add('todo-list');
         title.classList.add('todo-title');
         description.classList.add('todo-description');
         due.classList.add('todo-due');
+
+        if (todo.checked) {
+            list.classList.add('todo-completed');
+            checkbox.toggleAttribute('data-checked');
+            checkbox.classList.add('todo-checked');
+        }
 
         list.appendChild(checkbox);
         informationContainer.appendChild(title);
@@ -266,6 +272,10 @@ export function showSectionPage(section) {
             informationContainer.appendChild(due);
         }
 
+        checkbox.addEventListener('click', () => {
+            checkboxClicked(checkbox, list, todo.id);
+        });
+
         list.appendChild(informationContainer);
         todoUl.appendChild(list);
     });
@@ -275,9 +285,24 @@ export function showSectionPage(section) {
     createAddTask(section);
 }
 
+function checkboxClicked(checkbox, list, id) {
+    checkbox.toggleAttribute('data-checked');
+
+    if (checkbox.hasAttribute('data-checked')) {
+        list.classList.add('todo-completed');
+        checkbox.classList.add('todo-checked');
+    } else {
+        list.classList.remove('todo-completed');
+        checkbox.classList.remove('todo-checked');
+    }
+
+    const todo = todos.find((todo) => todo.id === id);
+    todo.toggleChecked();
+    updateTodo(todo);
+}
+
 export function createAddTask(section) {
     const todoUl = document.querySelector('.todo-ul');
-    const addTodoList = document.querySelector('.add-todo-list');
     const list = document.createElement('li');
     const listIcon = document.createElement('span');
 

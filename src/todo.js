@@ -3,23 +3,25 @@ import { showSectionPage } from "./section";
 export const todos = [];
 
 export class Todo {
-    constructor(title, description, date, time, priority, section) {
+    constructor(title, description, date, time, priority, section, checked, id) {
         this.title = title;
         this.description = description;
         this.date = date;
         this.time = time;
         this.priority = priority;
         this.section = section;
-        this.checked = false;
+        this.checked = checked;
+        this.id = id;
     }
 
-    updateTodo() {
-        
+    toggleChecked() {
+        this.checked = !this.checked;
     }
+}
 
-    sayHi() {
-        console.log('hi!');
-    }
+export function updateTodo(todo) {
+    todos[todo.id] = todo;
+    localStorage.setItem('todos', JSON.stringify(todos));
 }
 
 export function populateTodos() {
@@ -29,15 +31,23 @@ export function populateTodos() {
     if (!localTodos) return;
 
     localTodos.forEach((todo) => {
-        todos.push(new Todo(todo.title, todo.description, todo.date, todo.time, todo.priority, todo.section))
+        todos.push(new Todo(todo.title, todo.description, todo.date, todo.time, todo.priority, todo.section, todo.checked, todo.id))
     });
 }
 
 export function pushNewTodo(title, description, date, time, priority, section) {
     const main = document.querySelector('.main');
     const sectionName = document.querySelector('.section-page-heading').textContent;
-    const todo = new Todo(title, description, date, time, priority, section);
-    
+
+    let id;
+    if (!todos) {
+        id = 0;
+    } else {
+        id = todos.length;
+    }
+
+    const todo = new Todo(title, description, date, time, priority, section, false, id);
+
     todos.push(todo);
     localStorage.setItem('todos', JSON.stringify(todos));
 

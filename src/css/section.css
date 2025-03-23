@@ -35,6 +35,17 @@
 
 /* section page styling */
 
+.todo-completed {
+    text-decoration: line-through;
+    color: #b1adad;
+}
+
+.todo-completed p,
+.todo-completed .material-symbols-outlined {
+    font-style: italic;
+    color: #b1adad;
+}
+
 .todo-list,
 .add-todo-list {
     display: flex;
@@ -58,7 +69,7 @@
 
 .todo-checkbox::after {
     position: absolute;
-    left: 3px;
+    left: 2.5px;
     top: -2px;
     content: "✓";
     color: #b1adad;
@@ -71,6 +82,63 @@
 
 .todo-checkbox:hover::after {
     display: block;
+}
+
+.checkbox-urgent {
+    border: 2px solid #c1121f;
+}
+
+.checkbox-urgent:hover {
+    background-color: #ffeced;
+}
+
+.checkbox-urgent::after {
+    color: #c1121f;
+}
+
+.checkbox-urgent.todo-checked {
+    background-color: #c1121f;
+}
+
+.checkbox-important {
+    border: 2px solid #f77f00;
+}
+
+.checkbox-important:hover {
+    background-color: #fcf0e3;
+}
+
+.checkbox-important::after {
+    color: #f77f00;
+}
+
+.checkbox-important.todo-checked {
+    background-color: #f77f00;
+}
+
+.checkbox-low {
+    border: 2px solid #4bad32;
+}
+
+.checkbox-low:hover {
+    background-color: #f1ffee;
+}
+
+.checkbox-low::after {
+    color: #4bad32;
+}
+
+.checkbox-low.todo-checked {
+    background-color: #4bad32;
+}
+
+.checkbox-none.todo-checked {
+    background-color: #b1adad;
+}
+
+.todo-checked::after {
+    display: block;
+    color: #fff;
 }
 
 .todo-title,
