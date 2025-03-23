@@ -65,7 +65,8 @@
 .date-container,
 .time-container,
 .priority-container,
-.section-container {
+.section-container,
+.more-container {
     position: relative;
 }
 
@@ -77,7 +78,8 @@
 
 .date-button-container,
 .time-button-container,
-.priority-button-container {
+.priority-button-container,
+.more-button {
     color: #666666;
     background-color: #fff;
     border: 1px solid #ddd8d8;
@@ -89,7 +91,8 @@
 .date-button-container:hover,
 .time-button-container:hover,
 .priority-button-container:hover,
-.section-button:hover {
+.section-button:hover,
+.more-button:hover {
     color: #666666;
     background-color: #faf8f8;
 }
@@ -134,15 +137,23 @@
     overflow: hidden;
 }
 
+.more-dropdown {
+    top: 2.25rem;
+    left: -1rem;
+    width: 15rem;
+    padding: 1rem;
+}
+
 .date-dropdown,
 .time-dropdown,
 .priority-dropdown,
-.section-dropdown {
+.section-dropdown,
+.more-dropdown {
     position: absolute;
     background-color: #fff;
     border: 1px solid #e2e0e0;
     border-radius: 15px;
-    box-shadow: 0px 0px 3px 0px rgba(250,248,248,1);
+    box-shadow: 0px 0px 3px 0px rgb(231, 231, 231);
     text-align: center;
 }
 
@@ -190,6 +201,38 @@
     background-color: #faf8f8;
 }
 
+.priority-button-urgent .material-symbols-outlined {
+    color: #c1121f;
+}
+
+.priority-urgent:hover,
+.priority-urgent:hover .material-symbols-outlined {
+    background-color: #c1121f;
+    color: #fff;
+}
+
+.priority-button-important .material-symbols-outlined {
+    color: #f77f00;
+}
+
+.priority-container-important,
+.priority-important:hover,
+.priority-important:hover .material-symbols-outlined {
+    background-color: #f77f00;
+    color: #fff;
+}
+
+.priority-button-low .material-symbols-outlined {
+    color: #4bad32;
+}
+
+.priority-container-low,
+.priority-low:hover,
+.priority-low:hover .material-symbols-outlined {
+    background-color: #4bad32;
+    color: #fff;
+}
+
 .section-list {
     font-size: 0.9rem;
 }
@@ -198,15 +241,40 @@
     font-size: 1.5rem;
 }
 
+.section-list .section-checkmark {
+    font-variation-settings: 
+    'FILL' 1,
+    'wght' 600;
+    font-size: 1rem;
+    color: #0077b6;
+    margin-left: auto;
+}
+
 .section-button {
     border: none;
+    border-radius: 5px;
+    padding: 0.25rem 0.5rem;
+}
+
+.section-button-clicked {
+    color: #666666;
+    background-color: #faf8f8;
+}
+
+.more-button {
+    padding: 0.1rem 0.2rem;
+}
+
+.more-icon {
+    font-size: 1.5rem;
+    margin-right: 0;
 }
 
 .buttons-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.75rem;
+    padding: 0.6rem 0.75rem;
 }
 
 .datetime-icon {

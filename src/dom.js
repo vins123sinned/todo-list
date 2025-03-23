@@ -22,6 +22,7 @@ export function removeElement(elementName) {
 
     element.remove();
     if (overlay) overlay.remove();
+    if (elementName === '.section-dropdown') document.querySelector('.section-button').classList.remove('section-button-clicked');
 }
 
 export function showDropdown(containerName, dropdownName, dropdownFunction) {

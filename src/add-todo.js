@@ -3,7 +3,7 @@ import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDa
 import { pushNewTodo } from "./todo.js";
 import { createAddTask } from "./section.js";
 
-export function addTodoForm() {
+export function addTodoForm(section) {
     const formContainer = document.createElement('div');
 
     const titleLabel = document.createElement('label');
@@ -66,9 +66,10 @@ export function addTodoForm() {
     buttonsSelectContainer.appendChild(timeSelect());
     buttonsSelectContainer.appendChild(priorityLabel);
     buttonsSelectContainer.appendChild(prioritySelect());
+    buttonsSelectContainer.appendChild(moreButton());
     formContainer.appendChild(buttonsSelectContainer);
     buttonsContainer.appendChild(sectionLabel);
-    buttonsContainer.appendChild(sectionSelect());
+    buttonsContainer.appendChild(sectionSelect(section));
     cancelSubmitContainer.appendChild(cancelButton);
     cancelSubmitContainer.appendChild(submitButton);
     buttonsContainer.appendChild(cancelSubmitContainer);
@@ -131,7 +132,7 @@ function priorityDropdown() {
             icon: 'priority_high',
         },
         {
-            priority: 'low priority',
+            priority: 'low',
             icon: 'low_priority'
         }, 
         {
@@ -150,7 +151,7 @@ function priorityDropdown() {
         const list = document.createElement('li');
         const listIcon = document.createElement('span');
 
-        list.classList.add('priority-option');
+        list.classList.add('priority-option', `priority-${option.priority}`);
         list.textContent = option.priority;
         listIcon.classList.add('material-symbols-outlined');
         listIcon.textContent = option.icon;
@@ -172,6 +173,8 @@ function changeCurrentPriority(option) {
     const currentPriority = document.querySelector('.priority-button');
     const currentPriorityIcon = document.querySelector('.priority-icon');
     
+    currentPriority.classList.remove(`priority-button-${currentPriority.dataset.priority}`);
+    currentPriority.classList.add(`priority-button-${option.priority}`);
     currentPriority.dataset.priority = option.priority;
     currentPriority.textContent = option.priority;
     currentPriorityIcon.textContent = option.icon;
@@ -405,10 +408,7 @@ function resetTimeButton() {
     closeIcon.remove();
 }
 
-function sectionSelect() {
-    const getSections = localStorage.getItem('sections');
-    const sections = JSON.parse(getSections);
-
+function sectionSelect(section) {
     const sectionContainer = document.createElement('div');
     const sectionButton = document.createElement('button');
     const sectionIcon = document.createElement('span');
@@ -416,26 +416,27 @@ function sectionSelect() {
     sectionButton.id = 'section';
     sectionButton.name = 'section';
     sectionButton.type = 'button';
-    sectionButton.dataset.section = sections[0];
-    sectionButton.textContent = sections[0];
-    sectionIcon.classList.add('material-symbols-outlined');
+    sectionButton.dataset.section = section;
+    sectionButton.textContent = section;
     sectionIcon.textContent = 'tag';
 
     sectionContainer.classList.add('section-container');
     sectionButton.classList.add('section-button');
-    sectionIcon.classList.add('section-icon');
+    sectionIcon.classList.add('material-symbols-outlined', 'section-icon');
 
     sectionButton.prepend(sectionIcon);
     sectionContainer.appendChild(sectionButton);
 
     sectionButton.addEventListener('click', () => {
-        showDropdown('.section-container', '.section-dropdown', sectionsDropdown)
+        sectionButton.classList.add('section-button-clicked');
+        showDropdown('.section-container', '.section-dropdown', sectionsDropdown);
     });
 
     return sectionContainer;
 }
 
 function sectionsDropdown() {
+    const currentSection = document.querySelector('.section-button').dataset.section;
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
 
@@ -447,6 +448,12 @@ function sectionsDropdown() {
     sections.forEach((section) => {
         const list = document.createElement('li');
         const listIcon = document.createElement('span');
+        let listCheckmark;
+        if (section === currentSection) {
+            listCheckmark = document.createElement('span');
+            listCheckmark.classList.add('material-symbols-outlined', 'section-checkmark');
+            listCheckmark.textContent = 'check';
+        }
 
         list.classList.add('section-list');
         list.textContent = section;
@@ -458,6 +465,7 @@ function sectionsDropdown() {
         });
 
         list.prepend(listIcon);
+        if (listCheckmark) list.appendChild(listCheckmark);
         sectionUl.appendChild(list);
     });
 
@@ -474,6 +482,43 @@ function updateSectionButton(section) {
     sectionButton.prepend(sectionIcon);
 
     removeElement('.section-dropdown');
+}
+
+function moreButton() {
+    const moreContainer = document.createElement('div');
+    const moreButton = document.createElement('button');
+    const moreIcon = document.createElement('span');
+
+    moreButton.type = 'button';
+    moreIcon.textContent = 'more_horiz';
+
+    moreContainer.classList.add('more-container');
+    moreButton.classList.add('more-button');
+    moreIcon.classList.add('material-symbols-outlined', 'more-icon');
+
+    moreButton.prepend(moreIcon);
+    moreContainer.appendChild(moreButton);
+
+    moreButton.addEventListener('click', () => {
+        showDropdown('.more-container', '.more-dropdown', moreDropdown);
+    });
+
+    return moreContainer;
+}
+
+function moreDropdown() {
+    const moreDropdown = document.createElement('div');
+    const morePara1 = document.createElement('p');
+    const morePara2 = document.createElement('p');
+
+    morePara1.textContent = 'Nothing to see here!';
+    morePara2.textContent = 'This is just for looks 😎';
+
+    moreDropdown.classList.add('more-dropdown');
+
+    moreDropdown.appendChild(morePara1);
+    moreDropdown.appendChild(morePara2);
+    return moreDropdown;
 }
 
 function removeAddTodo() {

@@ -5,6 +5,7 @@ import { todos } from "./todo";
 import { addTodoForm } from "./add-todo";
 
 export function showSections() {
+    const main = document.querySelector('.main');
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
 
@@ -30,6 +31,7 @@ export function showSections() {
         listRight.prepend(sectionIcon);
 
         list.addEventListener('click', () => {
+            main.replaceChildren();
             showSectionPage(section);
         });
 
@@ -270,16 +272,14 @@ export function showSectionPage(section) {
 
     main.appendChild(sectionHeading);
     main.appendChild(todoUl);
-    createAddTask();
+    createAddTask(section);
 }
 
-export function createAddTask() {
+export function createAddTask(section) {
     const todoUl = document.querySelector('.todo-ul');
     const addTodoList = document.querySelector('.add-todo-list');
     const list = document.createElement('li');
     const listIcon = document.createElement('span');
-
-    if (addTodoList) addTodoList.remove();
 
     list.textContent = 'Add todo';
     listIcon.textContent = 'add';
@@ -288,8 +288,8 @@ export function createAddTask() {
     listIcon.classList.add('material-symbols-outlined', 'add-todo-icon');
 
     list.addEventListener('click', () => {
-        list.replaceChildren();
-        todoUl.appendChild(addTodoForm());
+        list.remove();
+        todoUl.appendChild(addTodoForm(section));
     });
 
     list.prepend(listIcon);

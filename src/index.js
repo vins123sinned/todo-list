@@ -7,4 +7,4 @@ import { showSections, showSectionPage } from "./section.js";
 
 populateTodos();
 showSections();
-showSectionPage('default');
+showSectionPage('1');

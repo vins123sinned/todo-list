@@ -25,11 +25,11 @@ ul li {
 .date-dropdown,
 .time-dropdown,
 .section-dropdown,
+.more-dropdown,
 .section-form,
 .delete-confirmation {
     position: relative;
     z-index: 999;
-    border: 1px solid black;
 }
 
 body,
