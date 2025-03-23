@@ -8,4 +8,3 @@ import { showSections, showSectionPage } from "./section.js";
 populateTodos();
 showSections();
 showSectionPage('default');
-addTodoForm();

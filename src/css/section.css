@@ -35,19 +35,16 @@
 
 /* section page styling */
 
-.todo-list {
+.todo-list,
+.add-todo-list {
     display: flex;
     border-top: 1px solid #e2e0e0;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
 }
 
 .todo-list:first-child {
     border: none;
     padding-top: 0;
-}
-
-.todo-list:last-child {
-    border-bottom: 1px solid #e2e0e0;;
 }
 
 .todo-checkbox {
@@ -78,7 +75,7 @@
 
 .todo-title,
 .todo-description {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
 }
 
 .todo-description {
@@ -96,9 +93,38 @@
     color: #0077b6;
 }
 
+.todo-date {
+    margin-right: 0.25rem;
+}
+
 .due-icon {
     font-size: 1rem;
     color: #0077b6;
     margin-right: 0.1rem;
+}
+
+.add-todo-list {
+    align-items: center;
+    color: #807d7d;
+}
+
+.add-todo-list:only-child {
+    border: none;
+}
+
+.add-todo-list:hover {
+    cursor: pointer;
+    color: #0077b6;
+}
+
+.add-todo-list:hover .add-todo-icon {
+    color: #fff;
+    background-color: #0077b6;
+    border-radius: 50%;
+}
+
+.add-todo-icon {
+    font-size: 1.5rem;
+    color: #0077b6;
 }
 

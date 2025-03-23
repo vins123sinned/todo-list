@@ -1,9 +1,9 @@
 import "./css/add-todo.css";
 import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime } from "./dom.js";
 import { pushNewTodo } from "./todo.js";
+import { createAddTask } from "./section.js";
 
 export function addTodoForm() {
-    const main = document.querySelector('.main');
     const formContainer = document.createElement('div');
 
     const titleLabel = document.createElement('label');
@@ -86,7 +86,7 @@ export function addTodoForm() {
         addTodo(event);
     })
 
-    main.appendChild(formContainer);
+    return formContainer
 }
 
 function prioritySelect() {
@@ -479,6 +479,8 @@ function updateSectionButton(section) {
 function removeAddTodo() {
     const formContainer = document.querySelector('.form-container');
     formContainer.remove();
+    
+    createAddTask();
 }
 
 function addTodo(event) {

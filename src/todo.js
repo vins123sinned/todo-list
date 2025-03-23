@@ -1,3 +1,5 @@
+import { showSectionPage } from "./section";
+
 export const todos = [];
 
 export class Todo {
@@ -32,8 +34,13 @@ export function populateTodos() {
 }
 
 export function pushNewTodo(title, description, date, time, priority, section) {
+    const main = document.querySelector('.main');
+    const sectionName = document.querySelector('.section-page-heading').textContent;
     const todo = new Todo(title, description, date, time, priority, section);
     
     todos.push(todo);
     localStorage.setItem('todos', JSON.stringify(todos));
+
+    main.replaceChildren();
+    showSectionPage(sectionName);
 }

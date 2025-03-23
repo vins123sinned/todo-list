@@ -2,6 +2,7 @@ import "./css/section.css";
 import "./css/section-form.css";
 import { addOverlay, addOverlayBackground, showErrorMessage, removeElement, formatDate, formatTime } from "./dom";
 import { todos } from "./todo";
+import { addTodoForm } from "./add-todo";
 
 export function showSections() {
     const getSections = localStorage.getItem('sections');
@@ -201,14 +202,20 @@ function deleteSection(deletedSection) {
 }
 
 export function showSectionPage(section) {
-    if (!todos) return;
-
     const main = document.querySelector('.main');
     const sectionHeading = document.createElement('h1');
     const todoUl = document.createElement('ul');
     
     sectionHeading.textContent = section;
     sectionHeading.classList.add('section-page-heading');
+    todoUl.classList.add('todo-ul');
+
+    if (!todos) {
+        todoUl.appendChild(addTaskList());
+        main.appendChild(sectionHeading);
+        main.appendChild(todoUl);
+        return;
+    };
     
     const sectionTodos = todos.filter((todo) => {
         return todo.section === section;
@@ -237,16 +244,17 @@ export function showSectionPage(section) {
 
         if (todo.date) {
             const dueDate = document.createElement('p');
+            dueDate.classList.add('todo-date');
             dueDate.textContent = formatDate(todo.date);
 
             due.appendChild(dueDate);
-        } else if (todo.time) {
+        } 
+        if (todo.time) {
             const dueTime = document.createElement('p');
-            dueTime.textContent = todo.time;
+            dueTime.textContent = formatTime(todo.time);
 
             due.appendChild(dueTime);
         }
-
         if (due.hasChildNodes()) {
             const dueIcon = document.createElement('span');
             dueIcon.classList.add('material-symbols-outlined', 'due-icon');
@@ -260,8 +268,32 @@ export function showSectionPage(section) {
         todoUl.appendChild(list);
     });
 
-    main.append(sectionHeading);
+    main.appendChild(sectionHeading);
     main.appendChild(todoUl);
+    createAddTask();
+}
+
+export function createAddTask() {
+    const todoUl = document.querySelector('.todo-ul');
+    const addTodoList = document.querySelector('.add-todo-list');
+    const list = document.createElement('li');
+    const listIcon = document.createElement('span');
+
+    if (addTodoList) addTodoList.remove();
+
+    list.textContent = 'Add todo';
+    listIcon.textContent = 'add';
+
+    list.classList.add('add-todo-list');
+    listIcon.classList.add('material-symbols-outlined', 'add-todo-icon');
+
+    list.addEventListener('click', () => {
+        list.replaceChildren();
+        todoUl.appendChild(addTodoForm());
+    });
+
+    list.prepend(listIcon);
+    todoUl.appendChild(list);
 }
 
 (function addSectionListener() {
