@@ -1,4 +1,5 @@
-import { addOverlay, addOverlayBackground, showErrorMessage, removeElement } from "./dom";
+import { addOverlay, addOverlayBackground, showErrorMessage, removeElement, formatDate, formatTime } from "./dom";
+import { todos } from "./todo";
 
 export function showSections() {
     const getSections = localStorage.getItem('sections');
@@ -24,6 +25,10 @@ export function showSections() {
         list.appendChild(listRight);
         list.appendChild(deleteIcon);
         listRight.prepend(sectionIcon);
+
+        list.addEventListener('click', () => {
+            showSectionPage(section);
+        });
 
         deleteIcon.addEventListener('click', () => {
             deleteSectionConfirmation(section);
@@ -191,6 +196,72 @@ function deleteSection(deletedSection) {
 
     removeElement('.delete-confirmation');
     updateSections();
+}
+
+export function showSectionPage(section) {
+    if (!todos) return;
+
+    const main = document.querySelector('.main');
+    const sectionHeading = document.createElement('h1');
+    const todoUl = document.createElement('ul');
+    
+    sectionHeading.textContent = section;
+
+    sectionHeading.classList.add('section-page-heading');
+    
+    const sectionTodos = todos.filter((todo) => {
+        return todo.section === section;
+    });
+    
+    sectionTodos.forEach((todo) => {
+        const list = document.createElement('li');
+        const checkbox = document.createElement('input');
+        const informationContainer = document.createElement('div');
+        const title = document.createElement('p');
+        const description = document.createElement('p');
+        const due = document.createElement('div');
+
+        checkbox.type = 'checkbox';
+        title.textContent = todo.title;
+        description.textContent = todo.description;
+
+        checkbox.classList.add('todo-checkbox');
+        list.classList.add('todo-list');
+        title.classList.add('todo-title');
+        description.classList.add('todo-description');
+        due.classList.add('todo-due');
+
+        list.appendChild(checkbox);
+        informationContainer.appendChild(title);
+        informationContainer.appendChild(description);
+
+        if (todo.date) {
+            const dueDate = document.createElement('p');
+            dueDate.textContent = formatDate(todo.date);
+
+            due.appendChild(dueDate);
+        } else if (todo.time) {
+            const dueTime = document.createElement('p');
+            dueTime.textContent = todo.time;
+
+            due.appendChild(dueTime);
+        }
+
+        if (due.hasChildNodes()) {
+            const dueIcon = document.createElement('span');
+            dueIcon.classList.add('material-symbols-outlined', 'due-icon');
+            dueIcon.textContent = 'event';
+
+            due.prepend(dueIcon);
+            informationContainer.appendChild(due);
+        }
+
+        list.appendChild(informationContainer);
+        todoUl.appendChild(list);
+    })
+
+    main.append(sectionHeading);
+    main.appendChild(todoUl);
 }
 
 (function addSectionListener() {

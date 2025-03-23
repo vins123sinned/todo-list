@@ -1,5 +1,4 @@
-import { parseISO, isSameYear, format } from "date-fns"; 
-import { removeElement, showDropdown, showErrorMessage, getCurrentDate } from "./dom.js";
+import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime } from "./dom.js";
 import { pushNewTodo } from "./todo.js";
 
 export function addTodoForm() {
@@ -284,17 +283,6 @@ function updateDateButton() {
     removeElement('.date-dropdown');
 }
 
-function formatDate(dateValue) {
-    const currentYear = (new Date()).toJSON().slice(0, 10);
-    const parsedDate = parseISO(dateValue);
-
-    if (isSameYear(currentYear, dateValue)) {
-        return format(parsedDate, 'MMMM dd');
-    } else {
-        return format(parsedDate, 'MMMM dd yyyy');
-    }
-}
-
 function resetDateButton() {
     const dateButton = document.querySelector('.date-button');
     const dateIcon = document.querySelector('.date-icon');
@@ -414,20 +402,6 @@ function resetTimeButton() {
     timeButton.textContent = 'Time';
     timeButton.prepend(timeIcon);
     closeIcon.remove();
-}
-
-function formatTime(timeValue) {
-    // I don't think date-fns has this built in
-    // so i'll do it myself
-    const hours = timeValue.slice(0, 2);
-
-    if (hours > 12) {
-        const newHours = parseInt(hours) - 12;
-        return `${newHours}${timeValue.slice(2)} PM`;
-    } else {
-        if (hours === '00') return `12${timeValue.slice(2)} AM`;
-        return `${timeValue} AM`;
-    }
 }
 
 function sectionSelect() {

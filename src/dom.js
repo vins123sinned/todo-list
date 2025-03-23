@@ -1,3 +1,5 @@
+import { parseISO, isSameYear, format } from "date-fns"; 
+
 export function addOverlay(elementName) {
     const overlay = document.createElement('div');
     overlay.classList.add('overlay');
@@ -65,4 +67,29 @@ export function getCurrentDate() {
     }
 
     return `${year}-${month}-${day}`;
+}
+
+export function formatDate(dateValue) {
+    const currentYear = (new Date()).toJSON().slice(0, 10);
+    const parsedDate = parseISO(dateValue);
+
+    if (isSameYear(currentYear, dateValue)) {
+        return format(parsedDate, 'MMMM dd');
+    } else {
+        return format(parsedDate, 'MMMM dd yyyy');
+    }
+}
+
+export function formatTime(timeValue) {
+    // I don't think date-fns has this built in
+    // so i'll do it myself
+    const hours = timeValue.slice(0, 2);
+
+    if (hours > 12) {
+        const newHours = parseInt(hours) - 12;
+        return `${newHours}${timeValue.slice(2)} PM`;
+    } else {
+        if (hours === '00') return `12${timeValue.slice(2)} AM`;
+        return `${timeValue} AM`;
+    }
 }

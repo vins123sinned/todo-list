@@ -1,8 +1,10 @@
 import "./style.css";
-import { Todo, todos } from "./todo.js";
+import { Todo, populateTodos } from "./todo.js";
 import { addTodoForm } from "./add-todo.js";
-import { showSections } from "./section.js";
+import { showSections, showSectionPage } from "./section.js";
 
-addTodoForm();
+
+populateTodos();
 showSections();
-const grocery = new Todo("Get Grocery", "Buy beers", "A", "0");
+showSectionPage('default');
+addTodoForm();
