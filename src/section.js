@@ -1,7 +1,7 @@
 import "./css/section.css";
 import "./css/section-form.css";
 import { addOverlay, addOverlayBackground, showErrorMessage, removeElement, formatDate, formatTime } from "./dom";
-import { todos, updateTodo } from "./todo";
+import { deleteTodo, todos, updateTodo } from "./todo";
 import { addTodoForm } from "./add-todo";
 
 export function showSections() {
@@ -277,6 +277,7 @@ export function showSectionPage(section) {
         });
 
         list.appendChild(informationContainer);
+        list.appendChild(hoverOptions(todo, section));
         todoUl.appendChild(list);
     });
 
@@ -299,6 +300,40 @@ function checkboxClicked(checkbox, list, id) {
     const todo = todos.find((todo) => todo.id === id);
     todo.toggleChecked();
     updateTodo(todo);
+}
+
+function hoverOptions(todo, section) {
+    const main = document.querySelector('.main');
+    const hoverOptions = document.createElement('div');
+    const editButton = document.createElement('button');
+    const editIcon = document.createElement('span');
+    const deleteButton = document.createElement('button');
+    const deleteIcon = document.createElement('span');
+
+    editButton.type = 'button';
+    editIcon.textContent = 'edit';
+    deleteButton.type = 'button';
+    deleteIcon.textContent = 'delete';
+
+    hoverOptions.classList.add('hover-options');
+    editButton.classList.add('hover-button');
+    editIcon.classList.add('material-symbols-outlined');
+    deleteButton.classList.add('hover-button');
+    deleteIcon.classList.add('material-symbols-outlined');
+
+    editButton.prepend(editIcon);
+    hoverOptions.appendChild(editButton);
+    deleteButton.prepend(deleteIcon);
+    hoverOptions.appendChild(deleteButton);
+
+    deleteButton.addEventListener('click', () => {
+        deleteTodo(todo.id);
+
+        main.replaceChildren();
+        showSectionPage(section);
+    });
+
+    return hoverOptions;
 }
 
 export function createAddTask(section) {

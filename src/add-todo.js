@@ -4,7 +4,7 @@ import { pushNewTodo } from "./todo.js";
 import { createAddTask } from "./section.js";
 
 export function addTodoForm(section) {
-    const formContainer = document.createElement('div');
+    const formContainer = document.createElement('form');
 
     const titleLabel = document.createElement('label');
     const titleInput = document.createElement('input');
@@ -18,7 +18,7 @@ export function addTodoForm(section) {
     const buttonsContainer = document.createElement('div');
     const cancelSubmitContainer = document.createElement('div');
     const cancelButton = document.createElement('button');
-    const submitButton = document.createElement('button');
+    const submitButton = document.createElement('input');
 
     //maybe section
     titleLabel.htmlFor = 'title';
@@ -529,7 +529,7 @@ function removeAddTodo() {
 }
 
 function addTodo(event) {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const title = document.querySelector('.title-input').value;
     const description = document.querySelector('.description-input').value;

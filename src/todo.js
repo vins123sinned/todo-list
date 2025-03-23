@@ -2,6 +2,8 @@ import { showSectionPage } from "./section";
 
 export const todos = [];
 
+const ids = [];
+
 export class Todo {
     constructor(title, description, date, time, priority, section, checked, id) {
         this.title = title;
@@ -24,6 +26,13 @@ export function updateTodo(todo) {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+export function deleteTodo(id) {
+    const index = todos.findIndex((todo) => todo.id === id);
+    todos.splice(index, 1);
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+}  
+
 export function populateTodos() {
     const getLocalTodos = localStorage.getItem('todos');
     const localTodos = JSON.parse(getLocalTodos);
@@ -39,13 +48,7 @@ export function pushNewTodo(title, description, date, time, priority, section) {
     const main = document.querySelector('.main');
     const sectionName = document.querySelector('.section-page-heading').textContent;
 
-    let id;
-    if (!todos) {
-        id = 0;
-    } else {
-        id = todos.length;
-    }
-
+    const id = Date.now().toString(36) + Math.random().toString(36).substring(2);
     const todo = new Todo(title, description, date, time, priority, section, false, id);
 
     todos.push(todo);

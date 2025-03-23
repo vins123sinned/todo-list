@@ -53,9 +53,16 @@
     padding: 0.75rem 0;
 }
 
+.todo-list {
+    position: relative;
+}
+
+.todo-list:hover {
+    cursor: pointer;
+}
+
 .todo-list:first-child {
     border: none;
-    padding-top: 0;
 }
 
 .todo-checkbox {
@@ -194,5 +201,40 @@
 .add-todo-icon {
     font-size: 1.5rem;
     color: #0077b6;
+}
+
+/* hover buttons styling */
+
+.todo-list:hover .hover-options {
+    display: block;
+}
+
+.hover-options {
+    position: absolute;
+    right: 0;
+    top: 0.5rem;
+    display: none;
+}
+
+.hover-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.hover-button:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.hover-button:first-child {
+    margin-right: 0.5rem;
+}
+
+.hover-button .material-symbols-outlined {
+    font-size: 1.6rem;
+    font-style: normal;
+    color: #666666;
+    margin: 0;
 }
 
