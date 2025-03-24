@@ -35,14 +35,12 @@
 
 /* section page styling */
 
-.todo-completed {
-    text-decoration: line-through;
-    color: #b1adad;
-}
-
-.todo-completed p,
-.todo-completed .material-symbols-outlined {
+.todo-completed .todo-information,
+.todo-completed .todo-due,
+.todo-completed .due-icon
+ {
     font-style: italic;
+    text-decoration: line-through;
     color: #b1adad;
 }
 

@@ -30,7 +30,11 @@ export function showDropdown(containerName, dropdownName, dropdownFunction) {
     const dropdown = document.querySelector(dropdownName);
 
     if (!container.contains(dropdown)) {
-        container.appendChild(dropdownFunction());
+        if (dropdownName === '.priority-dropdown') {
+            container.appendChild(dropdownFunction());
+        } else {
+            container.appendChild(dropdownFunction());
+        }
         addOverlay(dropdownName);
     }
 }

@@ -85,3 +85,13 @@ button:hover,
 .dropdown-submit:hover {
     background-color: #02669c;
 }
+
+.section-list .section-checkmark,
+.priority-option .priority-checkmark {
+    font-variation-settings: 
+    'FILL' 1,
+    'wght' 600;
+    font-size: 1rem;
+    color: #0077b6;
+    margin-left: auto;
+}

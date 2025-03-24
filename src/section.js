@@ -1,8 +1,8 @@
 import "./css/section.css";
 import "./css/section-form.css";
 import { addOverlay, addOverlayBackground, showErrorMessage, removeElement, formatDate, formatTime } from "./dom";
-import { deleteTodo, todos, updateTodo } from "./todo";
-import { addTodoForm } from "./add-todo";
+import { todos } from "./todo";
+import { addTodoForm, editTodoForm } from "./add-todo";
 
 export function showSections() {
     const main = document.querySelector('.main');
@@ -235,6 +235,7 @@ export function showSectionPage(section) {
         description.textContent = todo.description;
 
         checkbox.classList.add('todo-checkbox', `checkbox-${todo.priority}`);
+        informationContainer.classList.add('todo-information');
         list.classList.add('todo-list');
         title.classList.add('todo-title');
         description.classList.add('todo-description');
@@ -277,7 +278,7 @@ export function showSectionPage(section) {
         });
 
         list.appendChild(informationContainer);
-        list.appendChild(hoverOptions(todo, section));
+        list.appendChild(hoverOptions(todo, section, list));
         todoUl.appendChild(list);
     });
 
@@ -299,10 +300,9 @@ function checkboxClicked(checkbox, list, id) {
 
     const todo = todos.find((todo) => todo.id === id);
     todo.toggleChecked();
-    updateTodo(todo);
 }
 
-function hoverOptions(todo, section) {
+function hoverOptions(todo, section, list) {
     const main = document.querySelector('.main');
     const hoverOptions = document.createElement('div');
     const editButton = document.createElement('button');
@@ -326,9 +326,12 @@ function hoverOptions(todo, section) {
     deleteButton.prepend(deleteIcon);
     hoverOptions.appendChild(deleteButton);
 
-    deleteButton.addEventListener('click', () => {
-        deleteTodo(todo.id);
+    editButton.addEventListener('click', () => {
+        list.replaceChildren(editTodoForm(todo));
+    });
 
+    deleteButton.addEventListener('click', () => {
+        todo.deleteTodo();
         main.replaceChildren();
         showSectionPage(section);
     });

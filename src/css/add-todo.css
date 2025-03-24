@@ -84,6 +84,7 @@
     background-color: #fff;
     border: 1px solid #ddd8d8;
     border-radius: 5px;
+    height: 2rem;
     padding: 0.1rem 0.5rem;
     margin-right: 0.75rem;
 }
@@ -241,15 +242,6 @@
     font-size: 1.5rem;
 }
 
-.section-list .section-checkmark {
-    font-variation-settings: 
-    'FILL' 1,
-    'wght' 600;
-    font-size: 1rem;
-    color: #0077b6;
-    margin-left: auto;
-}
-
 .section-button {
     border: none;
     border-radius: 5px;
@@ -266,8 +258,14 @@
 }
 
 .more-icon {
+    position: relative;
+    font-variation-settings: 
+    'FILL' 1,
+    'wght' 300;
     font-size: 1.5rem;
-    margin-right: 0;
+    padding-left: 0.1rem;
+    margin: 0;
+    margin-top: 0.05rem;
 }
 
 .buttons-container {
@@ -277,11 +275,13 @@
     padding: 0.6rem 0.75rem;
 }
 
-.datetime-icon {
+.date-close-icon,
+.time-close-icon {
     font-size: 1rem;
     margin: 0;
 }
 
-.datetime-icon:hover {
+.date-close-icon:hover,
+.time-close-icon:hover {
     color: #000;
 }

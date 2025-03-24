@@ -2,8 +2,6 @@ import { showSectionPage } from "./section";
 
 export const todos = [];
 
-const ids = [];
-
 export class Todo {
     constructor(title, description, date, time, priority, section, checked, id) {
         this.title = title;
@@ -16,22 +14,34 @@ export class Todo {
         this.id = id;
     }
 
+    updateTodo(title, description, date, time, priority, section) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.time = time;
+        this.priority = priority;
+        this.section = section;
+
+        this.saveChanges();
+    }
+
     toggleChecked() {
         this.checked = !this.checked;
+
+        this.saveChanges();
+    }
+
+    saveChanges() {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    deleteTodo() {
+        const index = todos.findIndex((todo) => todo.id === this.id);
+        todos.splice(index, 1);
+
+        localStorage.setItem('todos', JSON.stringify(todos));
     }
 }
-
-export function updateTodo(todo) {
-    todos[todo.id] = todo;
-    localStorage.setItem('todos', JSON.stringify(todos));
-}
-
-export function deleteTodo(id) {
-    const index = todos.findIndex((todo) => todo.id === id);
-    todos.splice(index, 1);
-
-    localStorage.setItem('todos', JSON.stringify(todos));
-}  
 
 export function populateTodos() {
     const getLocalTodos = localStorage.getItem('todos');
