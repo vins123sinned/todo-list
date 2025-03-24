@@ -231,6 +231,7 @@ export function showSectionPage(section) {
         const description = document.createElement('p');
         const due = document.createElement('div');
 
+        list.dataset.id = todo.id;
         title.textContent = todo.title;
         description.textContent = todo.description;
 
@@ -327,7 +328,7 @@ function hoverOptions(todo, section, list) {
     hoverOptions.appendChild(deleteButton);
 
     editButton.addEventListener('click', () => {
-        list.replaceChildren(editTodoForm(todo));
+        editTodoForm(todo);
     });
 
     deleteButton.addEventListener('click', () => {
@@ -351,8 +352,11 @@ export function createAddTask(section) {
     listIcon.classList.add('material-symbols-outlined', 'add-todo-icon');
 
     list.addEventListener('click', () => {
+        addTodoForm(section);
+        /*
         list.remove();
         todoUl.appendChild(addTodoForm(section));
+        */
     });
 
     list.prepend(listIcon);

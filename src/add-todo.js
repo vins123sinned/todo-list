@@ -4,8 +4,12 @@ import { todos, pushNewTodo } from "./todo.js";
 import { createAddTask, showSectionPage } from "./section.js";
 
 export function addTodoForm(section) {
-    const formContainer = document.createElement('form');
+    removeExistingForm(section);
+    
+    const todoUl = document.querySelector('.todo-ul');
+    const addTodoLi = document.querySelector('.add-todo-list');
 
+    const formContainer = document.createElement('form');
     const titleLabel = document.createElement('label');
     const titleInput = document.createElement('input');
     const descriptionLabel = document.createElement('label');
@@ -87,10 +91,14 @@ export function addTodoForm(section) {
         addTodo(event);
     })
 
-    return formContainer;
+    addTodoLi.remove();
+    todoUl.appendChild(formContainer)
 }
 
 export function editTodoForm(todo) {
+    removeExistingForm(todo.section);
+
+    const todoList = document.querySelector(`[data-id = ${todo.id}]`);
     const formContainer = document.createElement('form');
     const main = document.querySelector('.main');
 
@@ -179,8 +187,19 @@ export function editTodoForm(todo) {
         sendUpdateTodo(event, todo.id);
     })
 
-    return formContainer;
+    todoList.replaceChildren(formContainer);
 }
+
+function removeExistingForm(section) {
+    const main = document.querySelector('.main');
+    const form = document.querySelector('.form-container');
+
+    if (form) {
+        main.replaceChildren();
+        showSectionPage(section);
+    }
+}
+
 
 function prioritySelect(priority) {
     // creates priority button on addTodo form
