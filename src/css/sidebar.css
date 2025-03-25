@@ -1,8 +1,7 @@
 .sidebar {
     width: clamp(300px, 50vw, 400px);
     padding: 1.75rem;
-    /* delete when main finished */
-    background-color: #9c9797;
+    background-color: #fdfdfd;
 }
 
 .sidebar-options-container {
@@ -68,4 +67,33 @@
     font-variation-settings: 
     'FILL' 1;
     color: #0077b6;
+}
+
+/* sidebar form */
+
+.sidebar-form-container {
+    box-shadow: 0 15px 50px 0 rgba(0, 0, 0, .35);
+    width: 40rem;
+    padding: 0.25rem;
+}
+
+.sidebar-form-container .date-dropdown,
+.sidebar-form-container .time-dropdown,
+.sidebar-form-container .priority-dropdown,
+.sidebar-form-container .more-dropdown,
+.sidebar-form-container .section-dropdown {
+    z-index: 999;
+}
+
+.sidebar-form-container .title-input {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.sidebar-form-container .buttons-select-container {
+    padding: 1rem 0.75rem;
+}
+
+.sidebar-form-container .buttons-container {
+    padding: 1rem 0.75rem;
 }

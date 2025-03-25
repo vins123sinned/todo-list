@@ -266,7 +266,6 @@
 .property-heading,
 .property-info {
     width: 90%;
-    word-break: break-all;
     overflow-wrap: break-word;
     margin-bottom: 0.25rem;
 }

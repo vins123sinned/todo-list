@@ -1,5 +1,16 @@
 import { parseISO, isSameYear, format } from "date-fns"; 
-import { showSectionPage } from "./section";
+import { sidebarFormClicked } from "./add-todo.js"
+
+export function addSidebarOverlay() {
+    const overlay = document.createElement('div');
+    overlay.classList.add('sidebar-overlay');
+
+    overlay.addEventListener('click', () => {
+        removeSidebarOverlay(overlay);
+    });
+
+    document.body.appendChild(overlay);
+}
 
 export function addOverlay(elementName) {
     const overlay = document.createElement('div');
@@ -12,6 +23,7 @@ export function addOverlay(elementName) {
     document.body.appendChild(overlay);
 }
 
+//this is key
 export function addOverlayBackground() {
     const overlay = document.querySelector('.overlay');
     overlay.classList.add('overlay-background');
@@ -21,9 +33,20 @@ export function removeElement(elementName) {
     const element = document.querySelector(elementName);
     const overlay = document.querySelector('.overlay');
 
-    element.remove();
+    if (element) element.remove();
     if (overlay) overlay.remove();
     if (elementName === '.section-dropdown') document.querySelector('.section-button').classList.remove('section-button-clicked');
+}
+
+export function removeSidebarOverlay(overlay) {
+    const sidebarFormContainer = document.querySelector('.sidebar-form-container');
+    const normalOverlay = document.querySelector('.overlay');
+        
+    sidebarFormContainer.removeEventListener('click', sidebarFormClicked)
+
+    sidebarFormContainer.remove();
+    overlay.remove();
+    if (normalOverlay) normalOverlay.remove();
 }
 
 export function showDropdown(containerName, dropdownName, dropdownFunction) {

@@ -25,6 +25,7 @@ input[type="submit"] {
 
 /* grouped css */
 
+.sidebar-form-container,
 .priority-dropdown,
 .date-dropdown,
 .time-dropdown,
@@ -62,6 +63,7 @@ button:hover,
     background-color: rgba(34, 34, 34, 0.6);
 }
 
+.sidebar-overlay,
 .overlay {
     position: absolute;
     width: 100%;
@@ -69,6 +71,21 @@ button:hover,
 }
 
 /* CSS used across different files */
+
+.sidebar-form-container label,
+.form-container label {
+    /* Taken from stackOverflow which helps hide the label 
+      element but keep it accessible for screen readers */
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: absolute !important;
+    height: 1px; 
+    width: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
 
 .cancel-button,
 .dropdown-cancel {
@@ -97,6 +114,7 @@ button:hover,
     margin-left: auto;
 }
 
+.sidebar-form-container,
 .delete-confirmation,
 .section-form,
 .expanded-todo {
@@ -112,7 +130,6 @@ button:hover,
     height: fit-content;
     background-color: #fff;
     border-radius: 15px;
-
     border: none;
 }
 

@@ -1,7 +1,119 @@
 import "./css/add-todo.css";
-import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime } from "./dom.js";
+import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime, removeSidebarOverlay } from "./dom.js";
 import { todos, pushNewTodo } from "./todo.js";
-import { createAddTask, showSectionPage } from "./section.js";
+import { showSectionPage } from "./section.js";
+
+export function sidebarAddTodoForm() {
+    const currentSection = document.querySelector('.section-page-heading').textContent;
+    removeExistingForm(currentSection);
+
+    const formContainer = document.createElement('form');
+    const titleLabel = document.createElement('label');
+    const titleInput = document.createElement('input');
+    const descriptionLabel = document.createElement('label');
+    const descriptionInput = document.createElement('input');
+    const buttonsSelectContainer = document.createElement('div');
+    const dateLabel = document.createElement('label');
+    const timeLabel = document.createElement('label');
+    const priorityLabel = document.createElement('label');
+    const sectionLabel = document.createElement('label');
+    const buttonsContainer = document.createElement('div');
+    const cancelSubmitContainer = document.createElement('div');
+    const cancelButton = document.createElement('button');
+    const submitButton = document.createElement('input');
+
+    titleLabel.htmlFor = 'title';
+    titleLabel.textContent = 'Title'
+    titleInput.setAttribute('type', 'text');
+    titleInput.id = 'title';
+    titleInput.name = 'title';
+    titleInput.required = true;
+    titleInput.placeholder = 'Get good at programming!';
+    descriptionLabel.htmlFor = 'description';
+    descriptionLabel.textContent = 'Description';
+    descriptionInput.type = 'text';
+    descriptionInput.id = 'description';
+    descriptionInput.name = 'title';
+    descriptionInput.placeholder = 'Description';
+    dateLabel.htmlFor = 'date';
+    dateLabel.textContent = 'Date';
+    timeLabel.htmlFor = 'time';
+    timeLabel.textContent = 'Time';
+    priorityLabel.htmlFor = 'priority';
+    priorityLabel.textContent = 'Priority';
+    sectionLabel.htmlFor = 'section';
+    sectionLabel.textContent = "Section";
+    cancelButton.type = 'button';
+    cancelButton.textContent = 'Cancel';
+    submitButton.type = 'submit';
+    submitButton.textContent = 'Add todo';
+    submitButton.disabled = true;
+
+    titleInput.classList.add('title-input');
+    descriptionInput.classList.add('description-input');
+    formContainer.classList.add('sidebar-form-container');
+    buttonsSelectContainer.classList.add('buttons-select-container');
+    buttonsContainer.classList.add('buttons-container');
+    cancelButton.classList.add('cancel-button');
+    submitButton.classList.add('submit-button');
+
+    formContainer.appendChild(titleLabel);
+    formContainer.appendChild(titleInput);
+    formContainer.appendChild(descriptionLabel);
+    formContainer.appendChild(descriptionInput);
+    buttonsSelectContainer.appendChild(dateLabel);
+    buttonsSelectContainer.appendChild(dateSelect());
+    buttonsSelectContainer.appendChild(timeLabel);
+    buttonsSelectContainer.appendChild(timeSelect());
+    buttonsSelectContainer.appendChild(priorityLabel);
+    buttonsSelectContainer.appendChild(prioritySelect('none'));
+    buttonsSelectContainer.appendChild(moreButton());
+    formContainer.appendChild(buttonsSelectContainer);
+    buttonsContainer.appendChild(sectionLabel);
+    buttonsContainer.appendChild(sectionSelect());
+    cancelSubmitContainer.appendChild(cancelButton);
+    cancelSubmitContainer.appendChild(submitButton);
+    buttonsContainer.appendChild(cancelSubmitContainer);
+    formContainer.appendChild(buttonsContainer);
+
+    // remove this when done
+    formContainer.addEventListener('click', sidebarFormClicked);
+
+    titleInput.addEventListener('input', (event) => {
+        titleInputChanged(event);
+    });
+    
+    cancelButton.addEventListener('click', () => {
+        const overlay = document.querySelector('.sidebar-overlay');
+        removeSidebarOverlay(overlay);
+    });
+
+    submitButton.addEventListener('click', (event) => {
+        addTodo(event);
+    })
+
+    document.body.appendChild(formContainer);
+}
+
+export function sidebarFormClicked(event) {
+    const dateDropdown = document.querySelector('.date-dropdown');
+    const timeDropdown = document.querySelector('.time-dropdown');
+    const priorityDropdown = document.querySelector('.priority-dropdown');
+    const moreDropdown = document.querySelector('.more-dropdown');
+    const sectionDropdown = document.querySelector('.section-dropdown');
+
+    if (dateDropdown) {
+        if (!dateDropdown.contains(event.target)) dateDropdown.remove();
+    } else if (timeDropdown) {
+        if (!timeDropdown.contains(event.target)) timeDropdown.remove();
+    } else if (priorityDropdown) {
+        if (!priorityDropdown.contains(event.target)) priorityDropdown.remove();
+    } else if (moreDropdown) {
+        if (!moreDropdown.contains(event.target)) moreDropdown.remove();
+    } else if (sectionDropdown) {
+        if (!sectionDropdown.contains(event.target)) sectionDropdown.remove();
+    }
+}
 
 export function addTodoForm(section) {
     removeExistingForm(section);
@@ -24,7 +136,6 @@ export function addTodoForm(section) {
     const cancelButton = document.createElement('button');
     const submitButton = document.createElement('input');
 
-    //maybe section
     titleLabel.htmlFor = 'title';
     titleLabel.textContent = 'Title'
     titleInput.setAttribute('type', 'text');
@@ -83,16 +194,14 @@ export function addTodoForm(section) {
         titleInputChanged(event);
     });
     
-    cancelButton.addEventListener('click', () => {
-        removeAddTodo();
-    });
+    cancelButton.addEventListener('click', removeAddTodo);
 
     submitButton.addEventListener('click', (event) => {
         addTodo(event);
     })
 
     addTodoLi.remove();
-    todoUl.appendChild(formContainer)
+    todoUl.appendChild(formContainer);
 }
 
 export function editTodoForm(todo) {
@@ -116,7 +225,6 @@ export function editTodoForm(todo) {
     const cancelButton = document.createElement('button');
     const submitButton = document.createElement('input');
 
-    //maybe section
     titleLabel.htmlFor = 'title';
     titleLabel.textContent = 'Title'
     titleInput.setAttribute('type', 'text');
@@ -176,12 +284,7 @@ export function editTodoForm(todo) {
         titleInputChanged(event);
     });
     
-    cancelButton.addEventListener('click', () => {
-        removeAddTodo();
-
-        main.replaceChildren();
-        showSectionPage(todo.section);
-    });
+    cancelButton.addEventListener('click', removeAddTodo);
 
     submitButton.addEventListener('click', (event) => {
         sendUpdateTodo(event, todo.id);
@@ -225,7 +328,9 @@ function prioritySelect(priority) {
     priorityButtonContainer.appendChild(currentPriority);
     priorityContainer.appendChild(priorityButtonContainer);
 
-    currentPriority.addEventListener('click', () => {
+    currentPriority.addEventListener('click', (event) => {
+        event.stopPropagation();
+
         showDropdown('.priority-container', '.priority-dropdown', priorityDropdown, priority);
     });
 
@@ -233,6 +338,8 @@ function prioritySelect(priority) {
 }
 
 function priorityDropdown() {
+    removeExistingDropdown();
+
     const currentPriority = document.querySelector('.priority-button').dataset.priority;
     const options = [
         {
@@ -323,7 +430,9 @@ function dateSelect(date) {
     dateButtonContainer.appendChild(dateButton);
     dateContainer.appendChild(dateButtonContainer);
 
-    dateButton.addEventListener('click', () => {
+    dateButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
         showDropdown('.date-container', '.date-dropdown', dateDropdown);
     });
     
@@ -350,6 +459,8 @@ function dateSelect(date) {
 }
 
 function dateDropdown() {
+    removeExistingDropdown();
+
     const currentDate = getCurrentDate();
 
     const dateDropdown = document.createElement('div');
@@ -454,7 +565,9 @@ function timeSelect(time) {
     timeButtonContainer.appendChild(timeButton);
     timeContainer.appendChild(timeButtonContainer);
 
-    timeButton.addEventListener('click', () => {
+    timeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
         showDropdown('.time-container', '.time-dropdown', timeDropdown);
     });
 
@@ -481,6 +594,8 @@ function timeSelect(time) {
 }
 
 function timeDropdown() {
+    removeExistingDropdown();
+
     const timeDropdown = document.createElement('div');
     const timeInput = document.createElement('input');
     const dropdownButtonsContainer = document.createElement('div');
@@ -569,7 +684,7 @@ function sectionSelect(section) {
     sectionButton.id = 'section';
     sectionButton.name = 'section';
     sectionButton.type = 'button';
-    sectionButton.dataset.section = section;
+    sectionButton.dataset.section = section || '';
     sectionButton.textContent = section;
     sectionIcon.textContent = 'tag';
 
@@ -580,7 +695,9 @@ function sectionSelect(section) {
     sectionButton.prepend(sectionIcon);
     sectionContainer.appendChild(sectionButton);
 
-    sectionButton.addEventListener('click', () => {
+    sectionButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
         sectionButton.classList.add('section-button-clicked');
         showDropdown('.section-container', '.section-dropdown', sectionsDropdown);
     });
@@ -589,6 +706,8 @@ function sectionSelect(section) {
 }
 
 function sectionsDropdown() {
+    removeExistingDropdown();
+
     const currentSection = document.querySelector('.section-button').dataset.section;
     const getSections = localStorage.getItem('sections');
     const sections = JSON.parse(getSections);
@@ -652,7 +771,9 @@ function moreButton() {
     moreButton.prepend(moreIcon);
     moreContainer.appendChild(moreButton);
 
-    moreButton.addEventListener('click', () => {
+    moreButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
         showDropdown('.more-container', '.more-dropdown', moreDropdown);
     });
 
@@ -660,6 +781,8 @@ function moreButton() {
 }
 
 function moreDropdown() {
+    removeExistingDropdown();
+
     const moreDropdown = document.createElement('div');
     const morePara1 = document.createElement('p');
     const morePara2 = document.createElement('p');
@@ -674,11 +797,39 @@ function moreDropdown() {
     return moreDropdown;
 }
 
+function removeExistingDropdown() {
+    // this is only for the sidebar form!
+    // since using z-index messed up my code 😤
+    // ...and I'm too lazy to change it 
+    const dateDropdown = document.querySelector('.date-dropdown');
+    const timeDropdown = document.querySelector('.time-dropdown');
+    const priorityDropdown = document.querySelector('.priority-dropdown');
+    const moreDropdown = document.querySelector('.more-dropdown');
+    const sectionDropdown = document.querySelector('.section-dropdown');
+
+    if (dateDropdown) {
+        removeElement('.date-dropdown');
+    } else if (timeDropdown) {
+        removeElement('.time-dropdown');
+    } else if (priorityDropdown) {
+        removeElement('.priority-dropdown');
+    } else if (moreDropdown) {
+        removeElement('.more-dropdown');
+    } else if (sectionDropdown) {
+        removeElement('.section-dropdown');
+    }
+}
+
 function removeAddTodo() {
+    const currentSection = document.querySelector('.section-page-heading').textContent;
+    const main = document.querySelector('.main');
     const formContainer = document.querySelector('.form-container');
-    formContainer.remove();
     
-    createAddTask();
+    formContainer.removeEventListener('click', removeAddTodo);
+
+    formContainer.remove();
+    main.replaceChildren();
+    showSectionPage(currentSection);
 }
 
 function addTodo(event) {
@@ -689,7 +840,19 @@ function addTodo(event) {
     const date = document.querySelector('.date-button').dataset.date ?? '';
     const time = document.querySelector('.time-button').dataset.time ?? '';
     const priority = document.querySelector('.priority-button').dataset.priority;
-    const section = document.querySelector('.section-button').dataset.section;
+    let section;
+    if (document.querySelector('.section-button').dataset.section) {
+        section = document.querySelector('.section-button').dataset.section;
+    } else {
+        const getSections = localStorage.getItem('sections');
+        const sections = JSON.parse(getSections);
+
+        if (sections[0]) {
+            section = sections[0];
+        } else {
+            section = 'default';
+        }
+    }
 
     pushNewTodo(title, description, date, time, priority, section);
 }
