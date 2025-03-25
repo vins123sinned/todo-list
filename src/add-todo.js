@@ -96,6 +96,7 @@ export function sidebarAddTodoForm() {
 }
 
 export function sidebarFormClicked(event) {
+    const overlay = document.querySelector('.overlay');
     const dateDropdown = document.querySelector('.date-dropdown');
     const timeDropdown = document.querySelector('.time-dropdown');
     const priorityDropdown = document.querySelector('.priority-dropdown');
@@ -111,8 +112,14 @@ export function sidebarFormClicked(event) {
     } else if (moreDropdown) {
         if (!moreDropdown.contains(event.target)) moreDropdown.remove();
     } else if (sectionDropdown) {
-        if (!sectionDropdown.contains(event.target)) sectionDropdown.remove();
+        if (!sectionDropdown.contains(event.target)) {
+            const sectionButton = document.querySelector('.section-button');
+            sectionButton.classList.remove('section-button-clicked');
+            sectionDropdown.remove();
+        }
     }
+    
+    if (overlay) overlay.remove();
 }
 
 export function addTodoForm(section) {
@@ -302,7 +309,6 @@ function removeExistingForm(section) {
         showSectionPage(section);
     }
 }
-
 
 function prioritySelect(priority) {
     // creates priority button on addTodo form
@@ -801,6 +807,7 @@ function removeExistingDropdown() {
     // this is only for the sidebar form!
     // since using z-index messed up my code 😤
     // ...and I'm too lazy to change it 
+    const overlay = document.querySelector('.overlay');
     const dateDropdown = document.querySelector('.date-dropdown');
     const timeDropdown = document.querySelector('.time-dropdown');
     const priorityDropdown = document.querySelector('.priority-dropdown');
@@ -818,6 +825,8 @@ function removeExistingDropdown() {
     } else if (sectionDropdown) {
         removeElement('.section-dropdown');
     }
+
+    if (overlay) overlay.remove();
 }
 
 function removeAddTodo() {
@@ -855,6 +864,21 @@ function addTodo(event) {
     }
 
     pushNewTodo(title, description, date, time, priority, section);
+    checkSidebarForm(section);
+}
+
+function checkSidebarForm(section) {
+    const sidebarForm = document.querySelector('.sidebar-form-container');
+    
+    if (sidebarForm) {
+        const sidebarOverlay = document.querySelector('.sidebar-overlay');
+        const main = document.querySelector('.main');
+       
+        removeSidebarOverlay(sidebarOverlay);
+        sidebarForm.remove();
+        main.replaceChildren();
+        showSectionPage(section);
+    }
 }
 
 function sendUpdateTodo(event, id) {
