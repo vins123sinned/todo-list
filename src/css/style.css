@@ -31,7 +31,8 @@ input[type="submit"] {
 .section-dropdown,
 .more-dropdown,
 .section-form,
-.delete-confirmation {
+.delete-confirmation,
+.expanded-todo {
     position: relative;
     z-index: 999;
 }
@@ -94,4 +95,30 @@ button:hover,
     font-size: 1rem;
     color: #0077b6;
     margin-left: auto;
+}
+
+.delete-confirmation,
+.section-form,
+.expanded-todo {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 30rem;
+    height: fit-content;
+    background-color: #fff;
+    border-radius: 15px;
+
+    border: none;
+}
+
+.section-option,
+.todo-title,
+.todo-description {
+    width: 100%;
+    overflow-wrap: break-word;
 }

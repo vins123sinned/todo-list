@@ -98,7 +98,7 @@ export function addTodoForm(section) {
 export function editTodoForm(todo) {
     removeExistingForm(todo.section);
 
-    const todoList = document.querySelector(`[data-id = ${todo.id}]`);
+    const todoList = document.querySelector(`[data-id=${todo.id}]`);
     const formContainer = document.createElement('form');
     const main = document.querySelector('.main');
 

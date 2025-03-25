@@ -1,4 +1,5 @@
 import { parseISO, isSameYear, format } from "date-fns"; 
+import { showSectionPage } from "./section";
 
 export function addOverlay(elementName) {
     const overlay = document.createElement('div');

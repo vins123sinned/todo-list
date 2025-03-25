@@ -274,7 +274,12 @@ export function showSectionPage(section) {
             informationContainer.appendChild(due);
         }
 
-        checkbox.addEventListener('click', () => {
+        // Pass a function here so that it can be removed later
+        list.addEventListener('click', listClicked);
+
+        checkbox.addEventListener('click', (event) => {
+            event.stopPropagation();
+            
             checkboxClicked(checkbox, list, todo.id);
         });
 
@@ -286,6 +291,99 @@ export function showSectionPage(section) {
     main.appendChild(sectionHeading);
     main.appendChild(todoUl);
     createAddTask(section);
+}
+
+function listClicked() {
+    const todo = todos.find((currentTodo) => currentTodo.id === this.dataset.id);
+    
+    expandTodo(todo);
+    addOverlay('.expanded-todo');
+    addOverlayBackground();
+}
+
+function expandTodo(todo) {
+    const todoInformation = document.createElement('div');
+    const expandedTodoHeader = document.createElement('div');
+    const expandedTodoHeading = document.createElement('h1');
+    const closeIcon = document.createElement('span');
+    const propertiesContainer = document.createElement('div');
+
+    expandedTodoHeading.textContent = 'Todo Information';
+    closeIcon.textContent = 'close';
+
+    todoInformation.classList.add('expanded-todo');
+    expandedTodoHeader.classList.add('expanded-todo-header');
+    expandedTodoHeading.classList.add('expanded-todo-heading');
+    propertiesContainer.classList.add('properties-container');
+    closeIcon.classList.add('material-symbols-outlined');
+
+    for (const property in todo) {
+        if (property === 'id') continue;
+
+        if (todo[property]) {
+            const propertyHeading = document.createElement('h2');
+            const propertyInfo = document.createElement('p');
+
+            switch (property) {
+                case "title":
+                    propertyHeading.textContent = 'Title';
+                    propertyInfo.textContent = todo[property];
+                    propertyInfo.classList.add('property-title');
+                    break;
+                case "description":
+                    propertyHeading.textContent = 'Description';
+                    propertyInfo.textContent = todo[property];
+                    break;
+                case "priority":
+                    propertyHeading.textContent = 'Priority';
+                    propertyInfo.textContent = todo[property];
+                    propertyInfo.classList.add(`property-priority-${todo[property]}`);
+                    break;
+                case "date":
+                    propertyHeading.textContent = 'Due Date';
+                    propertyInfo.textContent = formatDate(todo[property]);
+                    propertyInfo.classList.add('property-datetime');
+                    const dateIcon = document.createElement('span');
+                    dateIcon.classList.add('material-symbols-outlined', 'property-datetime-icon');
+                    dateIcon.textContent = 'event';
+                    propertyInfo.prepend(dateIcon);
+                    break;
+                case "time":
+                    propertyHeading.textContent = 'Due Time';
+                    propertyInfo.textContent = formatTime(todo[property]);
+                    propertyInfo.classList.add('property-datetime');
+                    const timeIcon = document.createElement('span');
+                    timeIcon.classList.add('material-symbols-outlined', 'property-datetime-icon');
+                    timeIcon.textContent = 'schedule';
+                    propertyInfo.prepend(timeIcon);
+                    break;
+                case "section":
+                    propertyHeading.textContent = 'Section';
+                    propertyInfo.textContent = todo[property];
+                    const sectionIcon = document.createElement('span');
+                    sectionIcon.classList.add('material-symbols-outlined', 'property-section-icon');
+                    sectionIcon.textContent = 'tag';
+                    propertyInfo.prepend(sectionIcon);
+                    break;
+            }
+
+            propertyHeading.classList.add('property-heading');
+            propertyInfo.classList.add('property-info');
+
+            propertiesContainer.appendChild(propertyHeading);
+            propertiesContainer.appendChild(propertyInfo);
+        }
+    }
+
+    closeIcon.addEventListener('click', () => {
+        removeElement('.expanded-todo');
+    });
+
+    expandedTodoHeader.appendChild(expandedTodoHeading);
+    expandedTodoHeader.appendChild(closeIcon);
+    todoInformation.appendChild(expandedTodoHeader);
+    todoInformation.appendChild(propertiesContainer);
+    document.body.appendChild(todoInformation);
 }
 
 function checkboxClicked(checkbox, list, id) {
@@ -303,7 +401,7 @@ function checkboxClicked(checkbox, list, id) {
     todo.toggleChecked();
 }
 
-function hoverOptions(todo, section, list) {
+function hoverOptions(todo, section) {
     const main = document.querySelector('.main');
     const hoverOptions = document.createElement('div');
     const editButton = document.createElement('button');
@@ -327,11 +425,17 @@ function hoverOptions(todo, section, list) {
     deleteButton.prepend(deleteIcon);
     hoverOptions.appendChild(deleteButton);
 
-    editButton.addEventListener('click', () => {
+    editButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const list = document.querySelector(`[data-id=${todo.id}]`);
+
         editTodoForm(todo);
+        list.removeEventListener('click', listClicked);
     });
 
-    deleteButton.addEventListener('click', () => {
+    deleteButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+
         todo.deleteTodo();
         main.replaceChildren();
         showSectionPage(section);

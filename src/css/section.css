@@ -44,6 +44,10 @@
     color: #b1adad;
 }
 
+.todo-information {
+    width: 90%;
+}
+
 .todo-list,
 .add-todo-list {
     display: flex;
@@ -69,7 +73,7 @@
     border-radius: 50%;
     width: 1.25rem;
     height: 1.25rem;
-    margin-right: 0.75rem;
+    margin-right: 0.75rem !important;
 }
 
 .todo-checkbox::after {
@@ -236,3 +240,81 @@
     margin: 0;
 }
 
+/* todo expand styling */
+
+.expanded-todo {
+    width: 50rem;
+}
+
+.expanded-todo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #faf8f8;
+}
+
+.expanded-todo-heading {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.properties-container {
+    padding: 0.5rem 1rem;
+}
+
+.property-heading,
+.property-info {
+    width: 90%;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    margin-bottom: 0.25rem;
+}
+
+.property-heading {
+    font-size: 1.15rem;
+    color: #0077b6;
+    margin-bottom: 0.5rem;
+}
+
+.property-info {
+    display: flex;
+    align-items: center;
+}
+
+.property-info .property-datetime-icon,
+.property-datetime {
+    color: #063f5e;
+}
+
+.property-info .property-datetime-icon,
+.property-info .property-section-icon {
+    font-size: 1.4rem;
+    margin-right: 0.25rem;
+}
+
+.property-info .property-section-icon {
+    font-variation-settings: 
+    'wght' 300;
+    color: #b1adad;
+}
+
+.property-info:last-child {
+    margin-bottom: 0.5rem;
+}
+
+.property-title {
+    font-weight: 600;
+}
+
+.property-priority-urgent {
+    color: #c1121f;
+}
+
+.property-priority-important {
+    color: #f77f00;
+}
+
+.property-priority-low {
+    color: #4bad32;
+}
