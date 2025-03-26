@@ -1,6 +1,8 @@
-import { showSectionPage } from "./section";
+import { showSectionPage } from "./section-page.js";
 
 export const todos = [];
+
+export let currentSection;
 
 export class Todo {
     constructor(title, description, date, time, priority, section, checked, id) {
@@ -66,4 +68,32 @@ export function pushNewTodo(title, description, date, time, priority, section) {
 
     main.replaceChildren();
     showSectionPage(sectionName);
+}
+
+export function getCurrentSection() {
+    const getLocalSection = localStorage.getItem('current');
+    const localSection = JSON.parse(getLocalSection);
+
+    if (!localSection) {
+        const getSections = localStorage.getItem('sections');
+        const sections = JSON.parse(getSections);
+
+        if (sections[0]) {
+            localStorage.setItem('current', JSON.stringify(sections[0]));
+            currentSection = sections[0];
+        } else {
+            localStorage.setItem('sections', JSON.stringify(['default']));
+            localStorage.setItem('current', JSON.stringify('default'));
+            currentSection = 'default';
+        }
+    } else {
+        currentSection = localSection;
+    }
+
+    return currentSection;
+}
+
+export function updateCurrentSection(section) {
+    localStorage.setItem('current', JSON.stringify(section));
+    currentSection = section;
 }

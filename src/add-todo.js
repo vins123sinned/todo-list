@@ -1,7 +1,7 @@
 import "./css/add-todo.css";
 import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime, removeSidebarOverlay } from "./dom.js";
 import { todos, pushNewTodo } from "./todo.js";
-import { showSectionPage } from "./section.js";
+import { showSectionPage } from "./section-page.js";
 
 export function sidebarAddTodoForm() {
     const currentSection = document.querySelector('.section-page-heading').textContent;
