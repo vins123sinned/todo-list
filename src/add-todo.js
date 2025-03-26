@@ -1,6 +1,6 @@
 import "./css/add-todo.css";
 import { removeElement, showDropdown, showErrorMessage, getCurrentDate, formatDate, formatTime, removeSidebarOverlay } from "./dom.js";
-import { todos, pushNewTodo } from "./todo.js";
+import { todos, pushNewTodo, currentSection, getCurrentSection } from "./todo.js";
 import { showSectionPage } from "./section-page.js";
 
 export function sidebarAddTodoForm() {
@@ -76,7 +76,6 @@ export function sidebarAddTodoForm() {
     buttonsContainer.appendChild(cancelSubmitContainer);
     formContainer.appendChild(buttonsContainer);
 
-    // remove this when done
     formContainer.addEventListener('click', sidebarFormClicked);
 
     titleInput.addEventListener('input', (event) => {
@@ -908,5 +907,21 @@ function titleInputChanged(event) {
         submitButton.disabled = false;
     } else {
         submitButton.disabled = true;
+    }
+
+    checkSectionEmpty();
+}
+
+function checkSectionEmpty() {
+    // this function will update currentSection if it or sections are empty
+    getCurrentSection();
+    const sectionButton = document.querySelector('.section-button');
+
+    if (!sectionButton.dataset.section) {
+        const sectionIcon = document.querySelector('.section-icon');
+
+        sectionButton.textContent = currentSection;
+        sectionButton.dataset.section = currentSection;
+        sectionButton.prepend(sectionIcon);
     }
 }

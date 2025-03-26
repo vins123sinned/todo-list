@@ -71,7 +71,6 @@ export function sidebarOptionPage(filteredTodos, sectionName) {
             informationContainer.appendChild(due);
         }
 
-        // Pass a function here so that it can be removed later
         list.addEventListener('click', listClicked);
 
         checkbox.addEventListener('click', (event) => {
@@ -165,7 +164,6 @@ export function showSectionPage(section) {
             informationContainer.appendChild(due);
         }
 
-        // Pass a function here so that it can be removed later
         list.addEventListener('click', listClicked);
 
         checkbox.addEventListener('click', (event) => {

@@ -32,7 +32,6 @@ export function showSections() {
         listRight.prepend(sectionIcon);
 
 
-        // stop propogation
         list.addEventListener('click', () => {
             main.replaceChildren();
 
@@ -40,7 +39,10 @@ export function showSections() {
             showSectionPage(section);
         });
 
-        deleteIcon.addEventListener('click', () => {
+        deleteIcon.addEventListener('click', (event) => {
+            // remove this if you want to see the section before deleting!
+            event.stopPropagation();
+
             deleteSectionConfirmation(section);
             addOverlay('.delete-confirmation');
             addOverlayBackground();

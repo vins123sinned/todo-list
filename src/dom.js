@@ -23,7 +23,6 @@ export function addOverlay(elementName) {
     document.body.appendChild(overlay);
 }
 
-//this is key
 export function addOverlayBackground() {
     const overlay = document.querySelector('.overlay');
     overlay.classList.add('overlay-background');
