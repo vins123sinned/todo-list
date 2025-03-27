@@ -1,19 +1,32 @@
 # todo-list
 A simple todo list that allows for creating, reading, updating, and deleting todos. The todo list will also have sections of lists for organization and better quality of life. Data will be stored using JSON in the LocalStorage so data can be saved in between page reloads.
 
+Inspired mainly by [Todoist](https://en.todoist.com) with a sprinkle of [Things](https://culturedcode.com/things/), this todo list website is fully functional and has all of the necessary features and functionality a todo list will ever need. From creating, reading, updating, or deleting sections and todos to being able to expand them and filter them, you can do anything you ever wish you could do with your todos. And while it looks simple the code underneath is a complex weave of many different code that interacts with each other while being loosely coupled. I hope you enjoy playing around with this todo!
+
 ## How it's made
 **Techs Used:** HTML, CSS, JS, Webpack
 
+**Packages Used**: 
+* CSS-Loader, Style-loader - Reads CSS files imported and turns it into a JavaScript string and then applies it to the file
+* HTML-Loader - Finds and bundles links in HTML files, such as an image `src` so that it won't be lost when Webpack optimizes it
+* HTML-Webpack-Plugin - Bundles HTML code so that Webpack can find and use the HTML file as a template
+* Webpack, Webpack-Cli, Webpack-Dev-Server, Webpack-Merge - Packages that help personalize or add features to Webpack and help make it work
+* Date-FNS - A popular and handy npm package that helps format and run functions on date values
 
 ## Features
-* Create, read, update, or delete your todos
-* Separate you todos into sections for organization
+* Create, read, update, or delete your todos and sections
+* Separate your todos into sections for organization
 * Sort each todos by priority
-* Set due dates for your todos
+* Set due dates and times for your todos
+* Choose or change the section you want to place your todo in
 * Expand to see your todos or edit them
+* Mark todos as completed when you're done with them
+* Filter your todos by today, upcoming (month), year, or all
+* Clean and sleek design based off [Todoist](https://en.todoist.com)
 * Store data on LocalStorage using JSON
 
 ## Installation
+**IMPORTANT**: Make sure you have NODE.js and npm installed first!
 1. Clone the repository:
 `git clone git@github.com:vins123sinned/todo-list.git`
 2. Navigate into project folder:
